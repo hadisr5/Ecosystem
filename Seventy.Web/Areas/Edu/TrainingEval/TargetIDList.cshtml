@@ -1,0 +1,8 @@
+﻿@model List<Seventy.DomainClass.EDU.Course.Course>
+<select name="TargetID" class="form-control select2" required>
+    @foreach (Seventy.DomainClass.EDU.Course.Course item in Model)
+    {
+        <option value="@item.ID">@item.Title</option>
+    }
+    <span for="TargetID"></span>
+</select>

@@ -1,0 +1,70 @@
+﻿@using AutoMapper
+@using Seventy.DomainClass.Core
+@using Seventy.Service.Users
+@using Seventy.Service.Core.Roles
+@model UsersViewModel
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@inject IUserManager UserManager
+@inject IRolesService RolesService
+@inject IMapper Mapper
+
+@{
+    Layout = null;
+    var Roles = RolesService.TableNoTracking();
+    Seventy.DomainClass.Core.UsersViewModel myModel = Model;
+
+    if (myModel == null)
+    {
+        myModel = new UsersViewModel();
+    }
+
+    int id = 0;
+}
+
+
+
+@if (HttpContextAccessor.HttpContext.Request.Query.Keys.Contains("id"))
+{
+    int.TryParse(HttpContextAccessor.HttpContext.Request.Query["id"], out id);
+    var record = UserManager.GetByID(id);
+    if (record == null)
+    {
+        <div class="alert alert-danger">
+            رکورد یافت نشد
+        </div>
+    }
+    else
+    {
+        myModel = Mapper.Map(record, myModel);
+    }
+}
+
+<form method="post" action="/admin/users/save">
+
+    @Html.Hidden("ID", myModel.ID)
+
+    <div class="row ">
+        <div class="col-md-4 form-group">
+            <label>شماره موبایل</label>
+            <input name="Mobile" value="@myModel.Mobile" class="form-control" />
+        </div>
+        <div class="col-md-4 form-group">
+            <label>رمز عبور</label>
+            <input name="Password" value="@myModel.Password" type="password" class="form-control" />
+        </div>
+        <div class="col-md-4 form-group">
+            <label> نقش کاربر</label>
+            <select asp-for="RoleID" class="form-control  select2" placeholder="@Html.DisplayNameFor(q=>q.RoleID)">
+                @foreach (var item in Roles)
+                {
+                    <option value="@item.ID">@item.Title</option>
+                }
+            </select>
+            <span asp-validation-for="RoleID" class="danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <input class="btn btn-primary" type="submit" value="ثبت" />
+    </div>
+</form>

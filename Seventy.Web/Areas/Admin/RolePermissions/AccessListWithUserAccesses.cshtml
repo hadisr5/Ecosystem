@@ -1,0 +1,108 @@
+﻿@model List<Seventy.ViewModel.Core.AccessViewModel>
+@using Seventy.Service.Core.Roles
+@using System
+@using Seventy.Service.Core.Permissions
+@using Seventy.Service.Core.UserAccess
+
+    @inject IUserAccessService _UserAccessService 
+    @inject IAccessService AccessService 
+    @{
+
+        if (ViewBag.UserId == null)
+        {
+            throw new Exception("ViewBag.UserId isn ull ");
+        }
+
+        var userAccesses = _UserAccessService.TableNoTracking().Where(q => q.IsActive == true && q.UserID == ViewBag.UserId)
+            .ToList();
+
+
+        var accList = AccessService.TableNoTracking().ToList();
+
+    }
+    @*354 14 183*@
+
+
+
+<div class="row">
+    <input type="hidden" id="TotalPage" value="@ViewBag.TotalPage" />
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">لیست مجوز های ثبت شده</h4>
+                <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                
+            </div>
+            <div class="card-content collapse show">
+                <div class="card-body card-dashboard">
+                    <p class="card-text">شما میتوانید از جدول زیر اقدام به ویرایش یا حذف اطلاعات کنید</p>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered zero-configuration">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>@Html.DisplayNameFor(q => q[0].Name)</th>
+                                    <th>@Html.DisplayNameFor(q => q[0].ActionName)</th>
+                                    <th>@Html.DisplayNameFor(q => q[0].Route)</th>
+                                    <th>@Html.DisplayNameFor(q => q[0].Description)</th>
+                                    <th class="CustomOperate">عملیات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr id="Row_@item.ID" onclick="selectTr(this)">
+                                        <td>
+                                            @{
+    if(userAccesses.Any(u=>u.AccessID==item.ID)){
+        <input name="accessList" type="checkbox" checked="checked" value="@item.ID"/>
+    }else{
+        <input  name="accessList" type="checkbox" value="@item.ID"/>
+    }
+}
+                                        </td>
+                                        <td>@item.ID</td>
+                                        <td>@item.Name</td>
+                                        <td>@item.ActionName</td>
+                                        <td>@item.Route</td>
+                                        <td>@item.Description</td>
+                                        <td>
+                                            <button type="button" class="btn-sm btn-warning" onclick="document.location.href='/Admin/Permission/PermissionManagement?ID=@item.ID'"><i class="ficon ft-edit"></i></button>
+                                            <button type="button" class="btn-sm btn-danger" onclick="Delete(@item.ID)"><i class="ficon ft-trash-2"></i></button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <nav class="mb-3" aria-label="Page navigation">
+                        <ul class="pagination">
+                            <li class="page-item">
+                                <a class="page-link" href="javascript:void(0)" onclick="PrevPage()" aria-label="Previous">
+                                    <span aria-hidden="true">« قبلی</span>
+                                    <span class="sr-only">قبلی</span>
+                                </a>
+                            </li>
+                            @for (int i = 1; i <= (int)ViewBag.TotalPage; i++)
+                            {
+                                <div id="pages" class="d-flex">
+                                    <li class="page-item">
+                                        <a class="page-link" href="javascript:void(0)" onclick="LoadPage(@i)">@i
+                                            <span class="spinner-border spinner-border-sm hidden" role="status" aria-hidden="true" id="PageBtn_@i"></span>
+                                        </a>
+                                    </li>
+                                </div>
+                            }
+                            <li class="page-item">
+                                <a class="page-link" href="javascript:void(0)" onclick="NextPage()" aria-label="Next">
+                                    <span aria-hidden="true">بعدی »</span>
+                                    <span class="sr-only">بعدی</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

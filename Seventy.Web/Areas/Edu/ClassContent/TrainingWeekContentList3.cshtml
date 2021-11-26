@@ -1,0 +1,50 @@
+﻿@using System.Threading
+@model List<Seventy.ViewModel.Core.FilesSecondViewModel>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">لیست کتابخانه</h4>
+                <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+            </div>
+            <div class="card-content collapse show">
+                <div class="card-body card-dashboard">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered zero-configuration">
+                            <thead>
+                                <tr>
+                                    <th>@Html.DisplayNameFor(q => q[0].Title)</th>
+                                    <th>@Html.DisplayNameFor(q => q[0].FileId)</th>
+                                    <th>@Html.DisplayNameFor(q => q[0].Description)</th>
+                                    <th class="CustomOperate">عملیات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    if (item.ID == null) continue;
+                                    var file = await Seventy.Web.Areas.Edu.ClassContent.ClassContentController.CheckFile(new CancellationToken(), item.FileId);
+                                    <tr id="Row_@item.ID">
+                                        <td>@item.Title</td>
+                                        <td>
+                                            @if (file != null)
+                                            {
+                                                <a class="btn btn-primary" href="@file">مشاهده</a>
+                                            }
+                                            else
+                                            {
+                                                <p>دسترسی به این فایل ممکن نیست</p>
+                                            }
+                                        </td>
+                                        <td>@item.Description</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

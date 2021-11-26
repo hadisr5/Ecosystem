@@ -1,0 +1,354 @@
+﻿@model Seventy.ViewModel.EDU.ExamViewModel
+
+@{
+    ViewBag.Title = "آزمون ساز عمومی";
+    Layout = "~/Areas/Edu/Shared/_Layout.cshtml";
+}
+
+@section Styles{
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/tables/datatable/datatables.min.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/css-rtl/plugins/pickers/persianDatepicker-master/css/persianDatepicker-default.css" />
+}
+
+@RenderBody()
+
+
+@section Scripts{
+    <script src="~/Scripts/Views/GeneralExam.js"></script>
+
+    @*DataTbl*@
+    <script src="/app-assets/vendors/js/tables/datatable/datatables.min.js" type="text/javascript"></script>
+    @*DatePicket*@
+    <script src="/app-assets/css-rtl/plugins/pickers/persianDatepicker-master/js/persianDatepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.1.60/inputmask/jquery.inputmask.js"></script>
+    <script src="/app-assets/js/datatable-lng.js"></script>
+
+    <script>
+        /* Pageination */
+        var tbl;
+        var currentPage = 1;
+        var total = 1;
+        var lessonId;
+        var examid;
+
+        function customSubmit() {
+            $("#frm").submit();
+        }
+
+        $(document).ready(function () {
+
+            tbl = $('.zero-configuration').DataTable({
+                "paging": false,
+                "processing": true,
+                "order": [[0, "desc"]],
+                "searching": false,
+                'language': language['language']
+            });
+
+            //For Test
+            //addRow();
+
+            $(".PersianDate").persianDatepicker();
+
+
+            //سرویس لیست سوالات انتخاب شده آزمون
+            //GetAllBySumBaromAsync(currentPage);
+            examid = $("#ID").val();
+            if (examid === "") {
+                examid = "0";
+            }
+            LoadSelectedQuestions(1, examid);
+
+            reloadGeneralExamTableList();
+
+        });
+
+        //بانک سوالات
+        function LoadQuestionBank(id) {
+            var p = $("#PageBtn_" + id);
+            p.removeClass("hidden");
+
+            $('#List').load("/Edu/Exam/GetAllQuestionExamAsync", { page: currentPage, lessonId: lessonId },
+                function (responseTxt, statusTxt, xhr) {
+
+                    if (statusTxt === "success") {
+                        totalPage = parseInt($("#TotalPage").val());
+                        p.addClass("hidden");
+                    }
+                });
+        }
+
+        //بانک سوالات
+        function NextPage() {
+            if (currentPage < totalPage) {
+                currentPage += 1;
+                LoadQuestionBank(currentPage);
+            }
+        }
+
+        //بانک سوالات
+        function PrevPage() {
+            if (currentPage > 1) {
+                currentPage -= 1;
+                LoadQuestionBank(currentPage);
+            }
+        }
+
+
+        //لیست سوالات انتخاب شده
+        function LoadSelectedQuestions(id, examid) {
+            var p = $("#PageBtn_" + id);
+            p.removeClass("hidden");
+
+            $('#List').load("/Edu/Exam/GetAllBySumBaromAsync", { page: currentPage, exam: examid },
+                function (responseTxt, statusTxt, xhr) {
+                    $(".waiting").hide();
+                    $("#configuration").show();
+                    if (statusTxt === "success") {
+                        totalPage = parseInt($("#TotalPage").val());
+                        p.addClass("hidden");
+                    }
+                });
+        }
+
+        //بانک سوالات
+        function NextPage2() {
+            if (currentPage < totalPage) {
+                currentPage += 1;
+                LoadSelectedQuestions(currentPage, examid);
+            }
+        }
+
+        //بانک سوالات
+        function PrevPage2() {
+            if (currentPage > 1) {
+                currentPage -= 1;
+                LoadSelectedQuestions(currentPage, examid);
+            }
+        }
+
+
+        // حذف لیست سوالات انتخاب شده
+        function Delete(id) {
+            swal({
+                title: 'جهت حذف این اطلاعات مطمئن هستید؟',
+                text: 'شما نمی توانید این را برگردانید!',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'بله ، آن را حذف میکنم!',
+                cancelButtonText: 'منصرف شدم'
+            }).then((result) => {
+                if (result.value) {
+                    doDelete(id);
+                }
+            });
+        }
+
+        function removeListSelected(questionId) {
+            var rows = ListSelection.split(",");
+            rows.pop();
+            for (var i = 0; i < rows.length; i++) {
+                var words = rows[i].split("_");
+                for (var j = 0; j < words.length; j += 3) {
+                    if (words[j] == questionId) {
+                        rows.splice(i, 1);
+                    }
+                }
+            }
+            if (rows.length == 0) {
+                ListSelection = "";
+            }
+            else {
+                ListSelection = rows.join() + ",";
+            }
+            $("#examQuestion").val(ListSelection);
+        }
+
+        // حذف لیست سوالات انتخاب شده
+        function doDelete(id) {
+            $.ajax({
+                type: "POST",
+                url: "/Edu/Exam/RemoveSumBaromAsync",
+                data: {
+                    ID: id
+                },
+                success: function (data) {
+                    if (data === "done") {
+                        tbl.row("#RowQ_" + id).remove().draw(false);
+                        removeListSelected(id);
+                        if (tbl.column(2).data().length)
+                            $("#SumOfBarom").text(tbl.column(2).data().sum());
+                        else
+                            $("#SumOfBarom").text("0")
+
+                        swal("انجام شد", data.statusText, "success");
+                    }
+                    else {
+                        swal("خطا", data.statusText, "error");
+                    }
+                }, error: function (data) {
+                    swal("خطا", data.statusText, "error");
+                }
+            });
+        }
+
+        // LessonId On dars Ro Vasam Barmigardoneh
+        var $eventSelect = $(".js-events");
+        $eventSelect.on("select2:select", function (e) {
+
+            //Show btnAddQuestion
+            $("#btnAddQuestion").fadeIn("slow");
+            //Go To QuestionLesson
+            //GetAllPaginatedByLessonId
+            lessonId = e.target.value;
+            GetAllQuestionExamAsync(currentPage, lessonId)
+
+        });
+
+        ////لیست سوالات بر اساس درس
+        function GetAllQuestionExamAsync(currentPage, lessonId) {
+            var p = $("#PageBtn_" + 1);
+            p.removeClass("hidden");
+            $('#List').load("/Edu/Exam/GetAllQuestionExamAsync", { page: currentPage, lessonId: lessonId },
+                function (responseTxt, statusTxt, xhr) {
+                    if (statusTxt === "success") {
+                        totalPage = parseInt($("#TotalPage").val());
+                        p.addClass("hidden");
+                    }
+                });
+        }
+
+        function LoadQuestionBankNumbers(TotalPage) {
+            var res = "";
+            var added = 0;
+            var cur = currentPage - 2;
+            for (var i = cur; i <= TotalPage; i++) {
+                if (i >= 1) {
+                    res += '<li class="page-item"><a class="page-link" href="javascript:void(0)" onclick="LoadQuestionBank(' + i + ')">' + i + '<span class="spinner-border spinner-border-sm hidden position-absolute"  style="left:5px" role="status" aria-hidden="true" id="PageBtn_' + i + '"></span></a></li>';
+                    added += 1;
+                }
+                if (added >= 7) {
+                    break;
+                }
+            }
+            return res;
+        }
+
+
+        //Pupup Modal
+        var questionTitle, userRegister, questionLevel;
+        //مشاهده
+        function ShowTitle(data) {
+            //alert("show");
+            $(".showTitle").show();
+            $(".showTitle").text(data);
+        }
+
+
+        //نوع سوالات
+        $('#questionTitle').change(function () {
+            questionTitle = $(this).val();
+            GetAllCustomAsync(currentPage, questionTitle, userRegister, questionLevel, lessonId);
+        });
+
+        //کابر ثبت شده
+        $('#userRegister').change(function () {
+            userRegister = $(this).val();
+            GetAllCustomAsync(currentPage, questionTitle, userRegister, questionLevel, lessonId);
+        });
+
+        //سطح سوالات
+        $('#questionLevel').change(function () {
+            questionLevel = $(this).val();
+            GetAllCustomAsync(currentPage, questionTitle, userRegister, questionLevel, lessonId);
+        });
+
+
+        //جستجو لیست سوالات بر اساس درس
+        function GetAllCustomAsync(currentPage, questionTitle, userRegister, questionLevel, lessonId) {
+            var p = $("#PageBtn_" + 1);
+            p.removeClass("hidden");
+            $('#List').load("/Edu/Exam/GetAllCustomAsync", {
+                page: currentPage,
+                type: questionTitle,
+                userId: userRegister,
+                level: questionLevel,
+                lessonId: lessonId
+            },
+                function (responseTxt, statusTxt, xhr) {
+                    if (statusTxt === "success") {
+                        totalPage = parseInt($("#TotalPage").val());
+                        p.addClass("hidden");
+                    }
+                });
+        }
+
+
+        ////سرویس لیست سوالات انتخاب شده آزمون
+        function GetAllBySumBaromAsync(currentPage) {
+            var p = $("#PageBtn_" + 1);
+            p.removeClass("hidden");
+
+            $('#ListQuestion').load("/Edu/Exam/GetAllBySumBaromAsync", { page: currentPage },
+                function (responseTxt, statusTxt, xhr) {
+                    if (statusTxt === "success") {
+                        totalPage = parseInt($("#TotalPage").val());
+                        p.addClass("hidden");
+                    }
+                });
+        }
+
+        //Need
+        jQuery.fn.dataTable.Api.register('sum()', function () {
+            return this.flatten().reduce(function (a, b) {
+                return (a * 1) + (b * 1);
+            });
+        });
+
+        var ListSelection = "";
+        //برای اضافه کردن سوال به لیت سوالات انتخاب شده
+        function AddRowToListSelection(id, title) {
+            var isExist = false;
+
+            //id == QuestionId  = Examid , barom ==
+            //سطر تکراری رو اینجا پیدا میکنم
+            for (var i = 0; i < tbl.data().length; i++) {
+                var index = tbl.row(i).data()[0];
+                if (index == id) {
+                    //add nakon
+                    isExist = true;
+                    break;
+                }
+            }
+
+            if (isExist == false) {
+                //inja bayad baresi konixvhpd
+                var barom = $("#Rowbarom_" + id).val();
+                if (barom == 0) {
+                    return
+                }
+                tbl.row.add([id, title, barom, '<button type="button" class="btn-sm btn-danger" onclick="Delete(' + id + ')"><i class="ficon ft-trash-2"></i></button>']).node().id = 'RowQ_' + id;
+                tbl.draw(false);
+                $("#SumOfBarom").text(tbl.column(2).data().sum());
+
+                ListSelection += id + "_" + examid + "_" + barom + ",";
+                $("#examQuestion").val(ListSelection);
+            }
+            $('#myModal').modal('toggle');
+
+        }
+
+
+
+        //Just For Test
+        function addRow() {
+            tbl.row.add(["1", "title", 10, '<button type="button" class="btn-sm btn-danger" onclick="Delete(' + 1 + ')"><i class="ficon ft-trash-2"></i></button>']).draw();
+            tbl.row.add(["1", "title", 20, '<button type="button" class="btn-sm btn-danger" onclick="Delete(' + 1 + ')"><i class="ficon ft-trash-2"></i></button>']).draw();
+            //console.log(tbl.column(2, { page: 'current' }).data().sum());
+        }
+
+
+    </script>
+}

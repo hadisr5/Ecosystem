@@ -1,0 +1,58 @@
+﻿@using Seventy.Service.Core.Roles.DefaultRoleAccess
+@using Seventy.Service.Core.UserAccess
+@model int /*role id*/
+@inject IDefaultRoleAccessService _defaultRoleAccessService
+@inject IAccessService AccessService
+@{
+    
+    Layout=null;
+    
+    var accessList= AccessService.TableNoTracking().ToList();
+
+    var roleDefaultAccesses= _defaultRoleAccessService.TableNoTracking()
+        .Where(d => d.RoleID == Model   && d.IsActive==true).ToList();
+    
+}
+
+<style>
+    tr:hover{
+    background-color: #a8ddec;
+    }
+</style>
+
+<table class="table table-bordered ">
+    <thead>
+    <tr>
+        <th></th>
+        <th>عنوان</th>
+        <th>نام اکشن</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+@foreach (var access in accessList)
+{
+    
+    <tr onclick="selectTr(this)">
+        <td>
+            @if (roleDefaultAccesses.Any(r => r.AccessID == access.ID))
+            {
+                <input name="accessList" type="checkbox" checked="checked" value="@access.ID"/>
+            }
+            else
+            {
+                <input name="accessList" type="checkbox"  value="@access.ID"/>
+            }
+
+        </td>
+        <td>
+            @access.Name 
+        </td>
+        <td>
+        @access.ActionName
+</td>
+    </tr>
+}
+ 
+    </tbody>
+</table>

@@ -1,0 +1,416 @@
+﻿@model Seventy.DomainClass.Core.UserProfilesViewModel
+@using System.Threading
+@using Seventy.Service.Core.Files
+@using controller = Seventy.Web.Areas.Edu.UserProfile.UserProfileController
+
+@using Seventy.Service.EDU.TeacherLesson
+@using Seventy.ViewModel.EDU
+@inject IFilesService _filesService;
+
+
+
+
+@{
+    ViewBag.Title = "پروفایل کاربر";
+    Layout = "~/Areas/Edu/Shared/_Layout.cshtml";
+
+
+
+}
+
+@{
+    var countries = await controller.GetCountries();
+    var states = await controller.GetStates();
+    var madraks = await controller.GetMadraks();
+    var fields = await controller.GetFields();
+    var universities = await controller.GetUniversities();
+
+    var ct = (CancellationToken) ViewBag.CurrentCancellationToken;
+    string profileImageUrl = "";
+    if (Model.PhotoFileID.HasValue)
+    {
+        profileImageUrl = await _filesService.GetFileUrlById(Model.PhotoFileID.Value, ct);
+    }
+
+}
+
+
+
+@section Styles{
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/tables/datatable/datatables.min.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/css-rtl/plugins/pickers/persianDatepicker-master/css/persianDatepicker-default.css"/>
+}
+
+<section id="sec">
+@if (ViewBag.success != null)
+{
+    <p class="alert-success p-2 col-12">@ViewBag.success</p>
+}
+@if (ViewBag.error != null)
+{
+    <p class="alert-danger p-2 col-12">@ViewBag.error</p>
+}
+
+@await Html.PartialAsync("../Shared/Components/ResponseMessagesPartial.cshtml")
+
+
+<div class="row">
+<div class="col-12">
+<div class="card">
+<div class="card-header">
+    <h4 class="card-title">پروفایل کاربر</h4>
+    <a class="heading-elements-toggle">
+        <i class="la la-ellipsis-v font-medium-3"></i>
+    </a>
+    <div class="heading-elements">
+        <ul class="list-inline mb-0">
+            <li>
+                <a data-action="collapse">
+                    <i class="ft-minus"></i>
+                </a>
+            </li>
+            <li>
+                <a data-action="expand">
+                    <i class="ft-maximize"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="card-content collapse show">
+<div class="card-body card-dashboard">
+
+<div class="row">
+<div class="col-md-9">
+<form asp-area="Edu" asp-controller="UserProfile" asp-action="SaveUserProfile" method="post" enctype="multipart/form-data">
+<div class="form-group">
+    <div asp-validation-summary="All" class="text-danger"></div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 form-group">
+        <label class="col-md-12 label-control">نام</label>
+
+        <div class="col-md-9">
+            <input asp-for="FirstName" class="form-control"/>
+            <span asp-validation-for="FirstName"></span>
+
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-6 form-group">
+            <div class="form-group row">
+                <label class="col-md-12 label-control">عکس پروفایل</label>
+
+                <div class="col-md-9">
+                    <input name="file" id="profile-image" accept=".jpg, .jpeg, .png" type="file"/>
+                    <span asp-validation-for="PhotoFileID"></span>
+                    <img src="" alt="عکس آپلود شده" id="profileImageTemp" style="display: none;padding: 20px" width="150" height="150"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 form-group">
+        <label class="col-md-12 label-control">نام خانوادگی</label>
+
+        <div class="col-md-9">
+            <input asp-for="LastName" class="form-control"/>
+            <span asp-validation-for="LastName"></span>
+        </div>
+
+    </div>
+    <div class="col-md-6 form-group">
+        <label class="col-md-12 label-control">کد ملی</label>
+
+        <div class="col-md-9">
+            <input asp-for="CodeMelli" class="form-control"/>
+            <span asp-validation-for="CodeMelli"></span>
+        </div>
+
+    </div>
+    <div class="col-md-6 form-group">
+        <label class="col-md-12 label-control">نام پدر</label>
+
+        <div class="col-md-9">
+            <input asp-for="Father" class="form-control"/>
+            <span asp-validation-for="Father"></span>
+        </div>
+
+    </div>
+    <div class="col-md-6 form-group">
+        <label class="col-md-12 label-control">جنسیت</label>
+
+        <div class="col-md-9" >
+            <label>
+            مرد
+                <input type="radio" asp-for="Sex" value="مرد" />
+            </label>
+            <label>
+            زن
+                <input type="radio" asp-for="Sex" value="زن" />
+            </label>
+            <span asp-validation-for="Sex"></span>
+        </div>
+
+    </div>
+    <div class="col-md-6 form-group">
+        <label class="col-md-12 label-control">تاریخ تولد</label>
+
+        <div class="col-md-9">
+            <input id="date" asp-for="Tavalod" class="date form-control"/>
+            <span asp-validation-for="Tavalod"></span>
+        </div>
+
+    </div>
+    <div class="col-md-6 form-group">
+        <label class="col-md-12 label-control">کشور</label>
+
+        <div class="col-md-9">
+
+            @Html.DropDownListFor(m => m.Country, countries, new {@class = "form-control"})
+            <span asp-validation-for="Country"></span>
+        </div>
+
+    </div>
+    <div class="col-md-6 form-group">
+        <label class="col-md-12 label-control">استان</label>
+
+        <div class="col-md-9">
+            @Html.DropDownListFor(m => m.Ostan, states, new {@id="Ostan", @class = "form-control"})
+
+            <span asp-validation-for="Ostan"></span>
+        </div>
+
+    </div>
+    <div class="col-md-6 form-group">
+        <label class="col-md-12 label-control">شهر</label>
+
+        <div class="col-md-9">
+            <select id="Shahr" asp-for="Shahr" class="form-control" value="@Model.Shahr" preValue="@Model.Shahr"></select>
+            <span asp-validation-for="Shahr"></span>
+        </div>
+
+    </div>
+    <div class="col-md-6 form-group">
+        <label class="col-md-12 label-control">استان محل سکونت</label>
+
+        <div class="col-md-9">
+            @Html.DropDownListFor(m => m.OstanSokoonat, states, new {@id="OstanSokoonat", @class = "form-control"})
+            <span asp-validation-for="OstanSokoonat"></span>
+        </div>
+
+    </div>
+    <div class="col-md-6 form-group">
+        <label class="col-md-12 label-control">شهر محل سکونت</label>
+
+        <div class="col-md-9">
+            <select id="ShahrSokoonat" asp-for="ShahrSokoonat" class="form-control" preValue="@Model.ShahrSokoonat"></select>
+            <span asp-validation-for="ShahrSokoonat"></span>
+        </div>
+
+    </div>
+    <div class="col-md-6 form-group">
+        <label class="col-md-12 label-control">ادرس</label>
+
+        <div class="col-md-9">
+            <textarea asp-for="Address" class="form-control">
+                                                    
+                                                    </textarea>
+            <span asp-validation-for="Address"></span>
+        </div>
+
+    </div>
+    <div class="col-md-6 form-group">
+        <label class="col-md-12 label-control">موبایل</label>
+
+        <div class="col-md-9">
+            <input asp-for="Tel" class="form-control"/>
+            <span asp-validation-for="Tel"></span>
+        </div>
+
+    </div>
+    <div class="col-md-6 form-group">
+        <label class="col-md-12 label-control">تلفن</label>
+
+        <div class="col-md-9">
+            <input asp-for="Cell" class="form-control"/>
+            <span asp-validation-for="Cell"></span>
+        </div>
+
+    </div>
+    <div class="col-md-6 form-group">
+        <label class="col-md-12 label-control">مدرک</label>
+
+        <div class="col-md-9">
+            @Html.DropDownListFor(m => m.Madrak, madraks, new {@class = "form-control"})
+            <span asp-validation-for="Madrak"></span>
+        </div>
+
+    </div>
+    <div class="col-md-6 form-group">
+        <label class="col-md-12 label-control">رشته تحصیلی</label>
+
+        <div class="col-md-9">
+            @Html.DropDownListFor(m => m.Reshte, fields, new {@class = "form-control"})
+
+            <span asp-validation-for="Reshte"></span>
+        </div>
+
+    </div>
+    <div class="col-md-6 form-group">
+        <label class="col-md-12 label-control">دانشگاه</label>
+
+        <div class="col-md-9">
+            @Html.DropDownListFor(m => m.Daneshgah, universities, new {@class = "form-control"})
+
+            <span asp-validation-for="Daneshgah"></span>
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<input type="hidden" asp-for="ID"/>
+
+<div class="row">
+    <div class="col-md-6 form-group">
+        <div class="form-group row">
+            <div class="col-sm-10 offset-3">
+                <button id="save" type="submit" class="btn btn-primary">ثبت</button>
+                <button id="reset" type="reset" class="btn btn-primary">پاکسازی فرم</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</form>
+
+</div>
+<div class="col-md-3">
+    @if (!string.IsNullOrEmpty(profileImageUrl))
+    {
+        <img alt="عکس پروفایل" src="@profileImageUrl" width="150" height="150" />
+    }
+
+</div>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</section>
+
+
+@section Scripts{
+    <script src="/app-assets/css-rtl/plugins/pickers/persianDatepicker-master/js/persianDatepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.1.60/inputmask/jquery.inputmask.js"></script>
+
+
+    <script>
+    
+    
+    function fillSelect(url,name){
+        
+        $.ajax({
+        url:url,
+        method:'get',
+        success:function(res) {
+          
+            let val= $(name).attr('preValue');
+            let html='';
+            for(let i = 0; i <res.length ; i++) {
+                let option;
+                debugger;
+                if((val+"")===(res[i].id+""))
+                {
+                    option ="<option  selected='selected' value='"+res[i].id+"'>"+res[i].name+"</option>";
+
+                }else{
+                   option ="<option value='"+res[i].id+"'>"+res[i].name+"</option>";
+
+                }
+                html+=option;
+            }
+            
+            $(name).html(html);
+            
+        },error:function(e) {
+          console.error(e);
+        }
+        })
+        
+        
+    }
+    
+        $(document).ready(function () {
+                   $(".date").persianDatepicker();
+                   
+                   // after loading page :
+                      var ostanId= $('#Ostan').val();
+                     fillSelect('/Edu/GetOstanCities?ostanId='+ostanId,'#Shahr')
+                    var ostanId= $('#OstanSokoonat').val();
+                   fillSelect('/Edu/GetOstanCities?ostanId='+ostanId,'#ShahrSokoonat');
+                                          
+                   
+                   $('#OstanSokoonat').change(function() {
+                   
+                       var ostanId= $('#OstanSokoonat').val();
+                       fillSelect('/Edu/GetOstanCities?ostanId='+ostanId,'#ShahrSokoonat');
+                       
+                       
+                   });
+                   $('#Ostan').change(function() {
+                      var ostanId= $('#Ostan').val();
+                      fillSelect('/Edu/GetOstanCities?ostanId='+ostanId,'#Shahr');
+
+                   });
+                   
+            
+           
+                             const fileSelector = document.getElementById('profile-image');
+                              fileSelector.addEventListener('change', (event) => {
+                                const fileList = event.target.files;
+                                console.log(fileList);
+                                
+                                 for (const file of fileList) {
+                                    // Not supported in Safari for iOS.
+                                    const name = file.name ? file.name : 'NOT SUPPORTED';
+                                    // Not supported in Firefox for Android or Opera for Android.
+                                    const type = file.type ? file.type : 'NOT SUPPORTED';
+                                    // Unknown cross-browser support.
+                                    const size = file.size ? file.size : 'NOT SUPPORTED';
+                                    console.log({file, name, type, size});
+                                    readImage(file);
+                                  }
+                              });
+                            
+        });
+        
+        function readImage(file) {
+          // Check if the file is an image.
+          if (file.type && file.type.indexOf('image') === -1) {
+            console.log('File is not an image.', file.type, file);
+            return;
+          }
+          
+          let img= document.getElementById('profileImageTemp');
+        
+          img.style.display='block';
+          
+          const reader = new FileReader();
+          reader.addEventListener('load', (event) => {
+            img.src = event.target.result;
+          });
+          reader.readAsDataURL(file);
+        }
+        
+        </script>
+}

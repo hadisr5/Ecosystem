@@ -1,0 +1,19 @@
+﻿@model Seventy.ViewModel.Core.FilesViewModel
+
+@{
+    ViewBag.Title = "فایل ها";
+    Layout = "~/Areas/Edu/Shared/_Layout.cshtml";
+}
+
+@section Styles{
+
+}
+
+@RenderBody()
+
+@section Scripts{
+    <script src="~/Scripts/Views/File.js"></script>
+    <script>
+        reloadFileList();      
+    </script>
+}

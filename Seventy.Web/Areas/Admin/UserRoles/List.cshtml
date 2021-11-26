@@ -1,0 +1,37 @@
+﻿@section Styles{
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/tables/datatable/datatables.min.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/forms/selects/select2.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/jquery-checktree.css">
+    <!-- BEGIN: Vendor CSS-->
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/plugins/forms/switch.min.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/forms/icheck/icheck.css">
+    <!-- END: Vendor CSS-->
+}
+
+<ul id="tree" style="list-style: none;">
+    @{
+        foreach (var Item in ((IEnumerable<Seventy.DomainClass.Core.Permissions>)ViewBag.AllPermissions).GroupBy(q=>q.Section).ToList())
+        {
+            var Parent = ((IEnumerable<Seventy.DomainClass.Core.Permissions>)ViewBag.AllPermissions).FirstOrDefault(q => q.Section == Item.Key);
+            <li class="icheck_minimal skin skin-square purple">
+                <input type="checkbox" id="input-3000@(Parent.ID)" @(((List<int>)ViewBag.MyActivePerms).Contains(Parent.ID.Value) ? "checked" : "")>
+                <label>@Parent.Section</label>
+                <ul>
+                    @foreach (Seventy.DomainClass.Core.Permissions Child in ((IEnumerable<Seventy.DomainClass.Core.Permissions>)ViewBag.AllPermissions).Where(q=>q.Section == Parent.Section).ToList())
+                    {
+                        <li>
+                            <input type="checkbox" id="input-@Child.ID" name="Perm_@Child.ID" @(((List<int>)ViewBag.MyActivePerms).Contains(Child.ID.Value) ? "checked" : "")>
+                            <label for="input-@Child.ID">@Child.Title</label>
+                        </li>
+                    }
+                </ul>
+            </li>
+        }
+    }
+</ul>
+
+
+@section Scripts{
+    @*DataTbl*@
+    <script src="/assets/js/jquery-checktree.js"></script>
+}

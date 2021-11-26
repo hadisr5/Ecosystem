@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="GenericRepository\**" />
+    <EmbeddedResource Remove="GenericRepository\**" />
+    <None Remove="GenericRepository\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="DapperContext.cs" />
+    <Compile Remove="IDapperContext.cs" />
+    <Compile Remove="IUnitOfWork.cs" />
+    <Compile Remove="Migrations\20200817151654_AddMenuTable.cs" />
+    <Compile Remove="Migrations\20200817151654_AddMenuTable.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Seventy.DomainClass\Seventy.DomainClass.csproj" />
+  </ItemGroup>
+
+</Project>

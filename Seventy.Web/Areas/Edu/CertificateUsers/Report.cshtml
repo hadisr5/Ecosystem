@@ -1,0 +1,21 @@
+﻿@using Stimulsoft.Report.Web;
+@using Stimulsoft.Report.Mvc;
+
+@{ Layout = ""; }   
+
+<div class="row">
+    @Html.StiNetCoreViewer(new StiNetCoreViewerOptions()
+    {
+
+        Server =
+                        {
+         UseRelativeUrls = true,
+                            Controller = "CertificateUsers"
+                        },
+        Actions =
+        {
+            GetReport = "GetReport",
+            ViewerEvent = "ViewerEvent"
+        }
+    })
+</div>

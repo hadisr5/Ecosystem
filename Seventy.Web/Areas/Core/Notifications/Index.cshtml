@@ -1,0 +1,9 @@
+﻿@{
+    Layout = "_layout";
+}
+
+<h1>Core/notif page </h1>
+@if (Context.Request.Query.ContainsKey("success"))
+{
+    <p class="alert-success p-2 col-12">@Context.Request.Query["success"]</p>
+}

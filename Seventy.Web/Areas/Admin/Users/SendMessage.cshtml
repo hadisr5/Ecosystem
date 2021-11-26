@@ -1,0 +1,50 @@
+﻿@model Seventy.DomainClass.Core.Messages;
+@{
+    Layout = "~/Areas/Admin/Shared/_Layout.cshtml";
+}
+@if (ViewBag.success != null)
+{
+    <div class="haftad-alert" type="success" title="@ViewBag.success"></div>
+}
+<div class="form-container">
+    <div class="form-form">
+        <div class="form-form-wrap">
+            <div class="form-container">
+                <div class="form-content">
+                    <h1 class="font-weight-bold">ارسال پیام به کاربر</h1>
+                    <form asp-area="admin" asp-controller="users" asp-action="SendMessagePost" method="post">
+                        @*<div class="form-group mb-4">
+            <label class="control-label">انتخاب کاربر:</label>
+            <select asp-for="ReciverUserID" class="form-control select2 basic" placeholder="کاربر">
+                @foreach (Seventy.DomainClass.Core.Users item in ViewBag.Users)
+                {
+                    <option value="@item.ID">@item.Email</option>
+                }
+            </select>
+        </div>*@
+                        <div class="form-group mb-4">
+                            <label class="control-label">عنوان پیام:</label>
+                            <input type="text" asp-for="MsgTitle" class="form-control">
+                        </div>
+                        <div class="form-group mb-4">
+                            <label class="control-label">توضیحات :</label>
+                            <textarea type="text" asp-for="Description" class="form-control"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-3">ارسال پیام</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-image">
+        <div class="l-image">
+        </div>
+    </div>
+</div>
+@section Script{
+    <script>
+        var ss = $(".basic").select2({
+            tags: true,
+        });
+    </script>
+}

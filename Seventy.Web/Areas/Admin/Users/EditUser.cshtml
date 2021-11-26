@@ -1,0 +1,52 @@
+﻿@model Seventy.DomainClass.Core.Users;
+@{
+    Layout = "~/Areas/Admin/Shared/_Layout.cshtml";
+}
+@if (ViewBag.success != null)
+{
+    <div class="haftad-alert" type="success" title="@ViewBag.success"></div>
+}
+<div class="form-container">
+    <div class="form-form">
+        <div class="form-form-wrap">
+            <div class="form-container">
+                <div class="form-content">
+                    <h1 class="font-weight-bold">ویرایش کاربر</h1>
+                    <form asp-area="admin" asp-controller="users" asp-action="EditUserPost" method="post">
+
+                        <input type="hidden" asp-for="ID" />
+                        <div class="form-group mb-4">
+                            <label class="control-label">موبایل :</label>
+                            <input type="text" asp-for="Mobile" class="form-control">
+                        </div>
+                        @*<div class="form-group mb-4">
+                            <label class="control-label">ایمیل :</label>
+                            <textarea type="text" asp-for="Email" class="form-control"></textarea>
+                        </div>*@
+                        <div class="form-group mb-4">
+                            <label class="control-label">وضعیت کاربری :</label>
+                            <select asp-for="IsActive" class="form-control select2 basic">
+                                <option value="True">فعال</option>
+                                <option value="False">غیر فعال</option>
+                            </select>
+                        </div>
+                        <div class="form-group mb-4">
+                            <button type="submit" class="btn btn-primary mt-3">ثبت تغییرات</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-image">
+        <div class="l-image">
+        </div>
+    </div>
+</div>
+@section Script{
+    <script>
+        var ss = $(".basic").select2({
+            tags: true,
+        });
+    </script>
+}

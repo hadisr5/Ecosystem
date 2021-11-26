@@ -1,0 +1,77 @@
+﻿
+@model Seventy.ViewModel.Core.Users.ForgotPasswordCodeViewModel
+@{
+    Layout = "_LoginLayout";
+}
+
+<div class="app-content content">
+    <div class="content-wrapper">
+        <div class="content-wrapper-before"></div>
+        <div class="content-header row">
+        </div>
+        <div class="content-body">
+            <section class="flexbox-container">
+                <div class="col-12 d-flex align-items-center justify-content-center">
+                    <div class="col-lg-4 col-md-6 col-10 box-shadow-2 p-0">
+                        <div class="card border-grey border-lighten-3 px-1 py-1 m-0">
+                            <div class="card-header border-0">
+                                <div class="text-center mb-1">
+                                    <img src="/assets/main/img/logo/logo1.jpg" alt="branding logo" width="200">
+                                </div>
+                                <div class="font-large-1  text-center">
+                                   رمز جدید
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <div class="font-small-3 text-center">
+                                        @if (ViewData.ContainsKey("err"))
+                                        {
+                                            <p class="alert-danger p-1">@ViewData["err"]</p>
+                                        }
+                                        @if (Context.Request.Query.ContainsKey("success"))
+                                        {
+                                            <p class="alert-success p-1">@Context.Request.Query["success"]</p>
+                                        }
+                                    </div>
+                                    <form class="form-horizontal" asp-controller="Account" asp-action="ForgetPassPost" method="post">
+                                        <fieldset class="form-group position-relative has-icon-left">
+                                            <input type="password" class="form-control " asp-for="Password" placeholder="@Html.DisplayNameFor(q=>q.Password)" required>
+                                            <div class="form-control-position">
+                                                <i class="ft-lock"></i>
+                                            </div>
+                                            <span asp-validation-for="Password" class="danger"></span>
+                                        </fieldset>
+                                        <fieldset class="form-group position-relative has-icon-left">
+                                            <input type="password" class="form-control " asp-for="ConfirmedPassword" placeholder="@Html.DisplayNameFor(q=>q.ConfirmedPassword)" required>
+                                            <div class="form-control-position">
+                                                <i class="ft-lock"></i>
+                                            </div>
+                                            <span asp-validation-for="ConfirmedPassword" class="danger"></span>
+                                        </fieldset>
+                                        <fieldset class="form-group position-relative has-icon-left">
+                                            <input type="text" class="form-control " asp-for="Code" placeholder="@Html.DisplayNameFor(q=>q.Code)" required>
+                                            <input type="hidden" class="form-control " asp-for="Mobile">
+                                            <div class="form-control-position">
+                                                <i class="ft-user"></i>
+                                            </div>
+                                            <span asp-validation-for="Code" class="danger"></span>
+                                        </fieldset>
+
+                                        <div class="form-group text-center">
+                                            <button type="submit" class="btn round btn-block btn-glow btn-bg-gradient-x-purple-blue col-12 mr-1 mb-1">ذخیره</button>
+                                        </div>
+
+                                    </form>
+                                </div>
+                                <p class="card-subtitle text-muted text-right font-small-3 mx-2 my-1">
+                                    <span> بازگشت به صفحه <a asp-controller="Account" asp-action="Login" class="card-link">ورود</a></span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>

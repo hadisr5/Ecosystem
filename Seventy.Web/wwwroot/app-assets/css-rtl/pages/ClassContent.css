@@ -1,0 +1,54 @@
+﻿@font-face {
+    font-family: 'webyad-icons';
+    src: url('../../fonts/VideoPlay/webyad-icons.ttf') format('truetype')
+}
+
+.videoItem, .lock {
+    font-family: webyad-icons;
+    position: relative;
+}
+
+
+    .videoItem:before {
+        content: "\e641";
+        color:lightgreen;
+        font-size: 24px;
+        margin: 0 0 0 10px;
+        font-family: "webyad-icons";
+        vertical-align: middle;
+        -webkit-font-smoothing: antialiased;
+        display: inline-block;
+    }
+
+
+    .lock:before {
+        content: "\e67D";
+        font-size: 24px;
+        margin: 0 0 0 10px;
+        font-family: "webyad-icons";
+        vertical-align: middle;
+        -webkit-font-smoothing: antialiased;
+        display: inline-block;
+    }
+
+.videoContainer {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    padding: 10%;
+}
+
+    .videoContainer video {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+
+#videoPlayer {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+}

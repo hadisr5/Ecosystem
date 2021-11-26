@@ -1,0 +1,46 @@
+*{
+    font-family : "Vazir";
+}
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    font-family: "Vazir";
+}
+@font-face {
+    font-family: 'Vazir';
+    src: url('../fonts/Vazir-FD.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+.dropdown-user.nav-item i,.horizontal-menu .main-menu-content #main-menu-navigation>li>a>i,.main-menu .dropdown-menu i,.main-menu .dropdown-user>a>i,.main-menu .navigation li>a>i,.main-menu .navigation>li>a>i,.mega-dropdown-menu li a i,.mega-dropdown-menu li h6 i{float:right}.echart-container,code[class*=language-],pre[class*=language-]{direction:ltr}.main-menu .main-menu-content a.menu-title,.main-menu .main-menu-content>span.menu-title{right:60px!important}.menu-expanded .form-group i{float:inherit}.form-control-position i{position:absolute;top:25%;right:25%}.mm-menu{left:auto}.dz-hidden-input{position:relative!important}.content-right-sidebar .sticky-wrapper,.content-wrapper .sticky-wrapper{float:left}.ui-widget-icon-block{right:50%}.ui-dialog .ui-dialog-titlebar-close{right:3rem}.square.slider-xl .noUi-handle:before{left:5px}.square.slider-xl .noUi-handle:after{left:10px}.square .noUi-handle:before{left:2px}.square .noUi-handle:after{left:7px}.noUi-vertical.square .noUi-handle:after,.noUi-vertical.square .noUi-handle:before{left:-1px}#tubular-container{z-index:0!important}.btn i[class*=' icon-'],.btn i[class^=icon-]{line-height:1.25rem}@media print{code[class*=language-],pre[class*=language-]{text-shadow:none}}.jp-card .jp-card-front .jp-card-lower .jp-card-expiry{right:65%}body .ps__rail-y{right:-6px!important}
+
+.dropdown .dropdown-menu {
+    min-width:13rem;
+}
+
+.CustomOperate {
+    width: 190px !important;
+}
+
+.main-menu.menu-light .navigation > li ul li > a {
+    padding: 10px 50px 10px 18px !important;
+}
+body.vertical-layout.vertical-menu.menu-expanded .main-menu.menu-light .navigation .hover > a > i, body.vertical-layout.vertical-menu.menu-expanded .main-menu.menu-light .navigation .open > a > i, body.vertical-layout.vertical-menu.menu-expanded .main-menu.menu-light .navigation:hover > a > i {
+    box-shadow:none !important
+}
+.main-menu.menu-light .navigation > li ul.menu-level2 li > a {
+    padding: 10px 70px 10px 18px !important;
+}
+.main-menu.menu-light .navigation > li ul .active > a::before {
+    content: none !important;
+}
+.main-menu.menu-light .navigation > li.open .hover > a:before {
+  content:none !important;
+}
+.avatar img {
+    width: 40px !important;
+    height: 40px !important;
+    border: 0;
+    border-radius: 50%;
+}
+.avatar {
+    width: 40px !important;
+}

@@ -1,0 +1,79 @@
+﻿@model Seventy.DomainClass.Core.Tickets
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Features/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>Tickets</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="UserID" class="control-label"></label>
+                <input asp-for="UserID" class="form-control" />
+                <span asp-validation-for="UserID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Section" class="control-label"></label>
+                <input asp-for="Section" class="form-control" />
+                <span asp-validation-for="Section" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Priority" class="control-label"></label>
+                <input asp-for="Priority" class="form-control" />
+                <span asp-validation-for="Priority" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <input asp-for="Status" class="form-control" />
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Actions" class="control-label"></label>
+                <input asp-for="Actions" class="form-control" />
+                <span asp-validation-for="Actions" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ResponderUserID" class="control-label"></label>
+                <input asp-for="ResponderUserID" class="form-control" />
+                <span asp-validation-for="ResponderUserID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Response" class="control-label"></label>
+                <input asp-for="Response" class="form-control" />
+                <span asp-validation-for="Response" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RegDate" class="control-label"></label>
+                <input asp-for="RegDate" class="form-control" />
+                <span asp-validation-for="RegDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Script {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,131 @@
+﻿@model IEnumerable<Seventy.ViewModel.EDU.QuestionsViewModel>
+@{
+    Layout = "~/Areas/Edu/Shared/_Layout.cshtml";
+    int i = 1;
+    ViewBag.Title = "شرکت در آزمون";
+}
+@section Styles{
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/tables/datatable/datatables.min.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/forms/icheck/icheck.css">
+    <link rel="stylesheet" type="text/css" href="~/assets/css/jquery.countdown.css" />
+    <link rel="stylesheet" type="text/css" href="/app-assets/css-rtl/core/menu/menu-types/vertical-menu.min.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/css-rtl/core/colors/palette-gradient.min.css">
+}
+
+<section>
+    @if (TempData.ContainsKey("success"))
+    {
+        <div class="haftad-alert" type="success" title="@TempData["success"]"></div>
+    }
+    @if (TempData.ContainsKey("err"))
+    {
+        <div class="haftad-alert" type="danger" title="@TempData["err"]"></div>
+    }
+
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">شرکت در آزمون</h4>
+                    <div class="row">
+                        <div class="col-md-6 offset-md-6">
+                            <div class="d-md-inline-block" id="countdown" dir="ltr"> <span>زمان باقیمانده :    </span></div>
+                        </div>
+                        
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-6">
+                            <span>درس:</span>
+                            <label class="label-control">@ViewBag.ExamLesson</label>
+
+                        </div>
+                        <div class="col-md-6">
+                            <span>عنوان:</span>
+                            <label class="label-control">@ViewBag.ExamTitle</label>
+                        </div>
+                    </div>
+                    <hr />
+
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                            <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+                @if (TempData.ContainsKey("Message"))
+                {
+                    <p class="alert-danger p-2 col-12">@TempData["Message"]</p>
+                }
+                <div class="card-content collapse show disabled">
+                    <div class="card-body card-dashboard">
+                        <p class="card-text">لطفا به سوالات زیر پاسخ دهید</p>
+                        <form asp-area="Edu" asp-controller="ExamAnswer" asp-action="StartExam" method="post" class="form form-horizontal" novalidate>
+                            @foreach (var item in Model)
+                            {
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="label-control">@(i++) - @item.Title (@item.Barom نمره)</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @if (item.MultiOption == true)
+                                        {
+                                            <div class="row">
+                                                @foreach (var opt in item.AnswerOptions)
+                                                {
+                                                    <div class="col-md-6  skin skin-line pb-1">
+                                                        <fieldset>
+                                                            <input type="radio" name="Q_@item.ID" value="">
+                                                            <label for="OptionAnswer">@opt.Title</label>
+                                                        </fieldset>
+                                                    </div>
+                                                }
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group row">
+                                                        <div class="col-md-12">
+                                                            <input class="form-control " name="Q_@item.ID" placeholder="" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                                <hr />
+                            }
+
+                            <input type="hidden" name="ExamID" value="@ViewBag.ExamID" />
+                            <div class="form-group row">
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary" id="submit">پایان آزمون</button>
+                                    <a class="btn btn-cancel-title-editing" href="/Edu">انصراف</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section Scripts{
+    <script src="/app-assets/vendors/js/forms/icheck/icheck.min.js" type="text/javascript"></script>
+    <script src="/app-assets/js/scripts/forms/checkbox-radio.min.js" type="text/javascript"></script>
+    <script src="~/assets/js/jquery.countdown.js" type="text/javascript"></script>
+    <script src="~/Scripts/Views/StartExam.js" type="text/javascript"></script>
+    <script>
+        countDownTimer("@ViewBag.ExamTime");
+    </script>
+}

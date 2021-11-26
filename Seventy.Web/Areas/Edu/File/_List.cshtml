@@ -1,0 +1,31 @@
+﻿@model FilesViewModel;
+<div class="row">
+
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">لیست موارد ثبت شده</h4>
+                <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+            </div>
+            <div class="card-content collapse show">
+                <div class="card-body card-dashboard">
+                    <p class="card-text">شما می توانید از جدول زیر اقدام به ویرایش یا حذف اطلاعات کنید</p>
+                    <div class="table-responsive">
+                        <table id="FileList" class="table table-striped table-bordered dt-responsive nowrap" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th><label asp-for="Title"></label></th>
+                                    <th><label asp-for="Description"></label></th>
+                                    <th><label asp-for="Type"></label></th>
+                                    <th><label asp-for="RegDate"></label></th>
+                                    <th class="CustomOperate"></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

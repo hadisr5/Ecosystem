@@ -1,0 +1,19 @@
+﻿@model Seventy.ViewModel.Core.FilesViewModel
+
+@{
+    ViewBag.Title = "لیست دوره های آموزش بلند مدت";
+    Layout = "~/Areas/Edu/Shared/_Layout.cshtml";
+}
+
+@section Styles{
+
+}
+
+@RenderBody()
+
+@section Scripts{
+    <script src="~/Scripts/Views/LongCourse.js"></script>
+    <script>
+        reloadLongCourseList();
+    </script>
+}

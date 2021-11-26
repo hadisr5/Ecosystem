@@ -1,0 +1,49 @@
+﻿@using System.Threading
+@model List<Seventy.ViewModel.Core.FilesSecondViewModel>
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">لیست ویدئو هفتگی</h4>
+                <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+            </div>
+            <div class="card-content collapse show">
+                <div class="card-body card-dashboard">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered zero-configuration">
+                            <thead>
+                                <tr>
+                                    <th>@Html.DisplayNameFor(q => q[0].Title)</th>
+                                    <th>@Html.DisplayNameFor(q => q[0].FileId)</th>
+                                    <th class="CustomOperate">عملیات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    var file = await Seventy.Web.Areas.Edu.ClassContent.ClassContentController.CheckFile(new CancellationToken(), item.FileId);
+                                    <tr id="Row_@item.ID">
+                                        <td>@item.Title</td>
+                                        <td>
+                                            @if (file != null)
+                                            {
+                                                <div data-contentid="@item.ID" class="videoItem" data-file="@file"></div>
+                                            }
+                                            else
+                                            {
+                                                <div class="lock"></div>
+                                            }
+                                        </td>
+                                        <td><a id="ContentStudied_@item.ID" data-contentid="@item.ID" class="btn btn-primary ContentStudied" href="#" >مطالعه کردم</a></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

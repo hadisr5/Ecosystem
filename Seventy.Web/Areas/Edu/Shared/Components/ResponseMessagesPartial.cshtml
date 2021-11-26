@@ -1,0 +1,11 @@
+@model dynamic
+
+
+ @if (TempData["Success"]!= null)
+    {
+        <div class="haftad-alert" type="success" title="@TempData["success"]"></div>
+    }
+    @if (@TempData["Error"] != null)
+    {
+        <p class="alert-danger p-2 col-12">@TempData["Error"]</p>
+    }

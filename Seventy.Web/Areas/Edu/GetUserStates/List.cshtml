@@ -1,0 +1,26 @@
+﻿@model List<Seventy.DomainClass.EDU.TrainingEvalIndexViewModel>
+@foreach (var item in Model)
+{
+    <div class="row">
+        <div class="offset-md-1 col-md-11 p-1">
+            @item.ID - @item.Title
+        </div>
+        <div class="row">
+            <div class="offset-md-1 col-md-2">
+                <button class="btn btn-danger" style="width: 125px;" onclick="Vote(@item.ID,1)">خیلی ضعیف</button>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-yellow" style="width: 125px;" onclick="Vote(@item.ID,2)">ضعیف</button>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-warning" style="width: 125px;" onclick="Vote(@item.ID,3)">متوسط</button>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-blue" style="width: 125px;" onclick="Vote(@item.ID,4)">خوب</button>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-success" style="width: 125px;" onclick="Vote(@item.ID,5)">عالی</button>
+            </div>
+        </div>
+    </div>
+}

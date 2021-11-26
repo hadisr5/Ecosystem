@@ -1,0 +1,604 @@
+
+/*Main Color
+    #F19D8f     Red
+    #7EA98D     Green
+    #CAD4D2     Silver
+    #53668F     Blue
+*/
+@font-face {
+  font-family: 'Vazir';
+  src: url('../fonts/Vazir-FD.eot');
+  src: url('../fonts/Vazir-FD.eot?#iefix') format('FontName-opentype'),
+       url('../fonts/Vazir-FD.woff') format('woff'),
+       url('../fonts/Vazir-FD.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+/*
+@font-face {
+  font-family: 'W_roya';
+  src: url('../fonts/W_roya.eot');
+  src: url('../fonts/W_roya.eot?#iefix') format('FontName-opentype'),
+       url('../fonts/W_roya.woff') format('woff'),
+       url('../fonts/W_roya.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+*/
+
+body{
+    font-family: 'Vazir';
+    padding-top: 85px;
+}
+a{
+    color: black;
+}
+.rtl .text-left, [dir="rtl"] .text-left{
+    text-align: left !important;
+}
+.rtl .text-right, [dir="rtl"] .text-right{
+    text-align: right !important;
+}
+
+/*####################
+#######################################################################
+        Navbar
+#######################################################################
+####################*/
+.rtl .navbar-nav .nav-item + .nav-item, [dir="rtl"] .navbar-nav .nav-item + .nav-item{
+    margin: 0;
+}
+.navbar {
+    background-color: white;
+    padding-top: 10px !important;
+}
+.navbar-nav a{
+    color: black;
+    font-family: 'Vazir';
+    font-size: 14px;
+}
+.dropdown-menu {
+  position: absolute;
+    z-index: 1;
+    right: -100% !important;
+    padding: 0 !important;
+    border: none;
+}
+.dropdown-item{
+    clear: none;
+    width: auto;
+}
+.dropdown-item:hover{
+    transition: .1s;
+}
+
+.dropdown-menu a{
+  float: right;
+  color: black;
+  text-decoration: none;
+}
+.navbar .nav-item{
+    border-bottom: 2px solid #ccc;
+    transition: .2s;
+}
+.nav-item-n-border{
+    border-bottom: none !important;
+}
+.navbar .nav-item:hover{
+    border-bottom: 2px solid #F19D8f;
+    transition: .1s;
+}
+.dropdown-toggle::after{
+    display: none;
+}
+.navbar-light .navbar-nav .nav-link{
+    color: black;
+    padding: 5px 25px;
+}
+.dropdown-menu{
+    width: max-content;
+}
+.dropdown-menu .dropdown-item{
+/*    border-left: 1px solid #ccc;*/
+}
+.border-none{
+    border-left:none !important;
+}
+.dropdown:hover>.dropdown-menu {
+  display: block;
+}
+
+.dropdown>.dropdown-toggle:active {
+  /*Without this, clicking will make it sticky*/
+    pointer-events: none;
+}
+.navbar .phonenumber{
+    text-decoration: none;
+    font-family: 'Vazir';
+}
+.dropdown-item.active, .dropdown-item:active{
+    background-color: #ccc;
+}
+.v-hr,.v-hr-left{
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+@media screen and (max-width: 992px) {
+    .dropdown-menu{
+        overflow: auto;
+        border: none;
+        width: 100%;
+    }
+    .navbar .nav-item{
+        border-bottom: none;
+    }
+    .navbar .nav-item:hover{
+        border-bottom: none;
+    }
+    .v-hr-left{
+        display: none;
+    }
+    .left-brand{
+        display: none;
+    }
+}
+
+/*####################
+#######################################################################
+    carouselExample
+#######################################################################
+
+####################*/
+
+.carousel-indicators{
+    justify-content: flex-start;
+    margin-right: 0;
+}
+.carousel-item a{
+    padding: 5px 40px;
+    color: white;
+    text-decoration: none;
+    border: 1px solid white;
+}
+.carousel-item img{
+    height: 400px;
+}
+
+.carousel-indicators li {
+  border: 1px solid #222;
+    background-color: white;
+}
+
+
+.carousel-indicators .active {
+  border: 1px solid #fff; }
+
+@media screen and (min-width: 320px) and (max-width: 767px) {
+  .carousel-indicators {
+/*    position: relative !important;*/
+    bottom: 0; 
+    }
+
+  .carousel-caption {
+    bottom: 100px;
+    
+    }
+    .carousel-caption h5 {
+      font-size: 12px;
+      font-weight: bold; }
+    .carousel-caption p {
+      font-size: 10px; }
+
+  .carousel-title {
+    font-size: 18px;
+    margin-top: 20px; }
+}
+
+/*# sourceMappingURL=main.css.map */
+/*####################
+#######################################################################
+        tickr
+#######################################################################
+####################*/
+.tickr{
+    margin-bottom: 60px;
+}
+
+@media only screen and (max-width: 992px) {
+     .typing1,.typing2,.typing3{
+        font-size: 22px !important;
+    }  
+}
+
+/*####################
+#######################################################################
+        joboffer
+#######################################################################
+####################*/
+.nav-pill a{
+    color: black !important;
+}
+#joboffer .nav-pills h1{
+    color: #F19D8f;
+    font-weight: bold;
+}
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link{
+    background-color: white;
+    color: black;
+/*    border-bottom: 3px solid #7EA98D; !important*/
+    border-bottom: 3px solid #F19D8f !important;
+    border-radius: 0 !important;
+}
+.owl-custom img{
+    border-radius: 70px 80px 70px;
+    margin: 0 auto;
+    display: block;
+    width: 100%;
+    height: auto;
+}
+#joboffer .nav-link{
+    border-bottom: 1px solid #ccc;        
+}
+.nav-pills .nav-link{
+    border-radius: 0 !important;
+}
+
+#joboffer.owl-custom .item a{
+    text-decoration: none;
+    color: black;
+}
+/*
+#joboffer .item strong{
+    color: #9a9a9a;
+}
+*/
+#joboffer hr{
+    border-top: 1px solid rgba(0,0,0,0.8);
+}
+
+#joboffer .owl-img-hover,#master .owl-img-hover{
+    position: relative;
+}
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: .5s ease;
+  background: rgb(235,235,235);
+background: linear-gradient(148deg, rgba(235,235,235,0.5) 0%, rgba(241,157,143,1) 54%, rgba(241,157,143,1) 100%);
+  border-radius: 70px 80px 70px;
+}
+.owl-img-hover:hover .overlay {
+  opacity: 1;
+}
+
+.text {
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.card{
+    border: none;
+}
+.owl-nav{
+    position: absolute;
+    top: 45%;
+    width: 100%;
+}
+ .owl-prev{
+    float:right;
+ }
+.owl-prev span{
+    font-size: 40px;
+    color: #000;
+    margin-right: -40px;
+ }
+ .owl-next{
+    float:left;
+}
+.owl-next span{
+    font-size: 40px;
+    color: #000;
+    margin-left: -40px;
+ }
+
+@media only screen and (max-width: 992px) {
+    #joboffer ul{
+        float: none !important;
+        text-align: center;
+    }
+    #joboffer .card-body{
+        text-align: center;
+    }
+}
+
+/*####################
+#######################################################################
+        #seventy-comment
+#######################################################################
+####################*/
+#seventy-line .scommnet1{
+    background-color: rgb(240,162,140);
+}
+#seventy-line .scommnet2{
+    background-color: rgb(81,99,139);
+}
+#seventy-line .scommnet3{
+    
+    background-color: rgb(126,166,140);
+}
+/*####################
+#######################################################################
+        #seventy-help
+#######################################################################
+####################*/
+#seventy-help{
+    padding: 100px 0px;
+}
+.line-left{
+    border-left: 1px solid #ccc;
+}
+@media only screen and (max-width: 992px) {
+    .line-left{
+        border-left: none;
+    }
+}
+
+/*####################
+#######################################################################
+        #about
+#######################################################################
+####################*/
+
+#about{
+    background-color: rgb(216,216,216);
+}
+
+#about h1{
+    color: rgb(81,99,139);
+    font-weight: bold;
+    
+}
+#about p{
+    text-align: justify;
+    text-justify: inter-word;
+    
+}
+#about .morebtn{
+    text-align: left;
+}
+#about .morebtn{
+    text-align: left;    
+}
+#about .morebtn a{
+    text-decoration: none;
+    padding: 5px 20px;
+    border: 1px solid rgb(81,99,139);
+    color: rgb(81,99,139);
+}
+#about video{
+    width: 100%;
+}
+
+@media only screen and (max-width: 992px) {
+    .col-md-6{
+        margin-bottom: 20px;
+    }
+    #about video{
+        width: 100%;;
+    }
+}
+
+
+/*####################
+#######################################################################
+        #master
+#######################################################################
+####################*/
+#master {
+    background-color:rgb(81,99,139);
+}
+#master a{
+    text-decoration: none;
+}
+#master.owl-custom .card{
+  background: none;
+  color: white;
+}
+
+/*####################
+#######################################################################
+        #article
+#######################################################################
+####################*/
+
+#article .owl-img-hover{
+    position: relative;
+}
+#article p{
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+#article .overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: .5s ease;
+  background: rgb(235,235,235);
+background: linear-gradient(148deg, rgba(235,235,235,0.5) 0%, rgba(241,157,143,1) 54%, rgba(241,157,143,1) 100%);
+    border-radius:0px;
+}
+#article .owl-img-hover:hover .overlay {
+  opacity: 1;
+}
+#article a{
+    text-decoration: none;
+    color: black;
+}
+
+@media only screen and (max-width: 992px) {
+    #article .media{
+      display: block;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    #article .owl-img-hover img{
+        width: 250px;
+    }
+    #article .owl-img-hover{
+        width: 250px;
+        margin: 0 auto;
+    }
+    #article .ml-3{
+        margin-right: 0 !important;
+    }
+}
+
+/*####################
+#######################################################################
+        #consultationrequest
+#######################################################################
+####################cad4d2*/
+
+#consultationrequest a{
+    text-decoration: none;
+    color: black;
+    padding: 5px 15px;
+}
+#consultationrequest .anonymous a{
+    background-color: #7EA98D;
+    color: white;
+}
+#consultationrequest .realinformation a{
+    background-color: transparent;
+    color: white;
+    border: 1px solid white;
+}
+
+
+#consultationrequest{
+    background-color: #cad4d2;
+}
+@media only screen and (max-width: 992px) {
+    
+    #consultationrequest .justify-content-end{
+        justify-content: center!important;
+    }
+    #consultationrequest{
+        text-align: center;
+    }
+}
+
+
+/*####################
+#######################################################################
+        #consultationrequest
+#######################################################################
+####################*/
+
+
+
+/*####################
+#######################################################################
+        #vieworder
+#######################################################################
+####################*/
+#vieworder{
+    background-color: rgb(202,212,211);
+    
+}
+#vieworder .media-body p{
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+#vieworder img{
+    border-radius: 30px 50px 30px;
+}
+#vieworder hr{
+    display: inline-block;
+    width: 100px;
+    border: 1px solid rgb(81,99,139);
+    margin-bottom: 5px;
+}
+.vieworder-more{
+    text-align: left;
+}
+.vieworder-more a{
+    text-decoration: none;
+    color: rgb(81,99,139);
+    border: 1px solid rgb(81,99,139);
+    padding: 5px 20px;
+}
+
+@media only screen and (max-width: 992px) {
+  #vieworder .media{
+        display: block;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+}
+/*####################
+#######################################################################
+        footer
+#######################################################################
+####################*/
+
+footer li{
+    list-style-type: none;
+}
+.seventy-social{
+    margin-top: 20px;
+}
+.seventy-social i{
+    padding: 0px 5px;
+}
+
+.seventy-social a{
+    color: black;
+}
+footer li a{
+    color: #53668F;
+    transition: .2s;
+}
+footer li a:hover{
+    text-decoration: none;
+    color: black;
+    transition: .2s;
+}
+
+@media only screen and (max-width: 992px) {
+    footer ul{
+        padding: 0 !important;
+    }
+    .col-md-2{
+        margin-bottom: 20px;
+    }
+  footer li,footer h5{
+      text-align: center;
+    }
+}
+
+
+
+
+
+

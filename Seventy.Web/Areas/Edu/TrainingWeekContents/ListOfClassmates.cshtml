@@ -1,0 +1,38 @@
+﻿
+@model List<Seventy.ViewModel.EDU.Content.ContentUserViewModel>
+
+
+@if (Model != null)
+{
+    <div class="row">
+        <div class="col-md-12">
+            <p class="text-center"><strong>همکلاسی ها</strong></p>
+        </div>
+        @foreach (var item in Model)
+        {
+            <div class="col-md-6 text-nowrap">
+                <i class="ft-user"></i>
+                <span class="text-nowrap">@item.UserName</span>
+            </div>
+            <div class="col-md-6 mb-2">
+                <a href="/Edu/Messages?msgType=0&receiverID=@item.UserId" class="btn-sm btn-primary btn-block text-center">پیام</a>
+            </div>
+        }
+
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-12">
+            <p class="text-center"><strong>همکلاسی ها</strong></p>
+        </div>
+        <div class="col-md-12">
+            <p class="text-center text-danger">همکلاسی وجود ندارد</p>
+        </div>
+    </div>
+}
+
+
+
+

@@ -1,0 +1,21 @@
+﻿@{ Layout = null;}
+
+@if (TempData["Message"] != null)
+{
+    bool status = TempData["MessageStatus"].ToString() == "false" ? false : true;
+    if (status)
+    {
+        <div class="alert alert-success fade show" role="alert">
+            @TempData["Message"].ToString()
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-danger fade show" role="alert">
+            @TempData["Message"].ToString()
+        </div>
+    }
+
+    TempData["Message"] = null;
+    status = false;
+}

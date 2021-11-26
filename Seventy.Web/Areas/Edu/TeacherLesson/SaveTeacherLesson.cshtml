@@ -1,0 +1,89 @@
+﻿@model Seventy.ViewModel.EDU.TeacherLessonEditModel
+@using controller = Seventy.Web.Areas.Edu.TeacherLesson.TeacherLessonController
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">ثبت درس برای مدرس</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                            <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card-content collapse show">
+                    <div class="card-body card-dashboard">
+                    <form asp-area="Edu" asp-controller="TeacherLesson" asp-action="SaveTeacherLesson" method="post">
+                        <div class="form-group">
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                        </div>
+                    
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-md-3 label-control">انتخاب درس</label>
+                    
+                                    <div class="col-md-9">
+                                        <select required="required" id="saveLessonID" asp-for="LessonID" class="form-control select2" required>
+                                            <option disabled selected>نام درس</option>
+                                            @foreach (var item in controller.GetAllCourse())
+                                            {
+                                                <option value="@item.ID">@item.Title</option>
+                                            }
+                                        </select>
+                                        <span asp-validation-for="LessonID"></span>
+                                    </div>
+                    
+                                </div>
+                            </div>
+                    
+                            <div class="col-md-6">
+                                                           <div class="form-group row">
+                                                               <label class="col-md-3 label-control">انتخاب مدرس</label>
+                                               
+                                                               <div class="col-md-9">
+                                                                   <select required="required" id="saveTeacherID" asp-for="TeacherID" class="form-control select2" required>
+                                                                       <option disabled selected>نام کاربر</option>
+                                                                       @foreach (var item in controller.GetAllUser())
+                                                                       {
+                                                                           <option value="@item.ID">@item.Mobile</option>
+                                                                       }
+                                                                   </select>
+                                                                   <span asp-validation-for="TeacherID"></span>
+                                                               </div>
+                                               
+                                                           </div>
+                                                       </div>
+                                                       
+                                                       
+                                                       
+                        </div>
+                    
+                        <input type="hidden" asp-for="ID"/>
+                    
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <div class="col-sm-10 offset-3">
+                                        <button id="save" type="button" class="btn btn-primary">ذخیره</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    
+                    </form>
+                   
+                    
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+@*/Edu/TeacherLesson/SaveTeacherLesson*@

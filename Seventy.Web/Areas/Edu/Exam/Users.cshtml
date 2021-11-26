@@ -1,0 +1,12 @@
+﻿@model List<Seventy.DomainClass.Core.UserProfiles>
+<label class="col-md-3 label-control">
+    کاربر
+</label>
+<div class="col-md-9">
+    <select class="form-control select2" placeholder="کاربر" id="TargetID" name="TargetID">
+        @foreach (Seventy.DomainClass.Core.UserProfiles item in Model)
+        {
+            <option value="@item.UserID">@item.FirstName @item.LastName</option>
+        }
+    </select>
+</div>

@@ -1,0 +1,6 @@
+﻿@if (ViewData.Eval("Name") != null)
+{
+    <li class="nav-item">
+        <a class="nav-link @ViewData.Eval("isActive").ToString()"  onclick="_LoadPage('@ViewData.Eval("Area").ToString()')" data-toggle="tab" id="@ViewData.Eval("ID").ToString()" href="#@ViewData.Eval("Area").ToString()" aria-controls="@ViewData.Eval("Area").ToString()" aria-expanded="true"><i class="@ViewData.Eval("Icon").ToString()"></i>@ViewData.Eval("Name").ToString()</a>
+    </li>
+}

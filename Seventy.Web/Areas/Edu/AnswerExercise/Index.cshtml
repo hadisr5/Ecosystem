@@ -1,0 +1,138 @@
+﻿@model Seventy.DomainClass.EDU.Exercise.ExerciseUser
+@using controller = Seventy.Web.Areas.Edu.Lessons.LessonsController
+@{
+    Layout = "~/Areas/Edu/Shared/_Layout.cshtml";
+    ViewBag.Title = "پاسخ به تمرین";
+}
+@section Styles{
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/tables/datatable/datatables.min.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/forms/icheck/icheck.css">
+
+    <link rel="stylesheet" type="text/css" href="/app-assets/css-rtl/core/menu/menu-types/vertical-menu.min.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/css-rtl/core/colors/palette-gradient.min.css">
+}
+
+<section>
+    @if (ViewBag.success != null)
+    {
+        <div class="haftad-alert" type="success" title="@ViewBag.success"></div>
+    }
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">پاسخ به سوال</h4>
+                    <hr />
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                            <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+                @if (TempData.ContainsKey("Message"))
+                {
+                    <p class="alert-danger p-2 col-12">@TempData["Message"]</p>
+                }
+                <div class="card-content collapse show">
+                    <div class="card-body card-dashboard">
+                        <form asp-area="Edu" asp-controller="AnswerExercise" asp-action="Index" method="post" class="form form-horizontal" novalidate>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-control">
+                                            شرح تمرین
+                                        </label>
+                                        <div class="col-md-9">
+                                            <input disabled class="form-control" asp-for="Description" placeholder="شرح تمرین" required>
+                                            <span asp-validation-for="Description" class="danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-control">فایل تمرین:</label>
+                                        <div class="col-md-9">
+                                            @{
+                                                @if (Model.FileID != null)
+                                                {
+                                                    <a class="img-list" href="@Model.File.Title" width="100">دریافت</a>
+                                                }
+                                            }
+                                            <span asp-validation-for="Exercise.FileID"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-control">پاسخ به تمرین:</label>
+                                        <div class="col-md-9">
+                                            <input class="form-control" asp-for="Answer" placeholder="پاسخ" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-control">آپلود پاسخ تمرین:</label>
+                                        <div class="col-md-9">
+                                            <input name="file" type="file" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @if (Model.Exercise.EndDate < DateTime.Now) {
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group row">
+                                            <label class="col-md-3 label-control">پاسخ صحیح:</label>
+                                            <div class="col-md-9">
+                                                @Model.Exercise.CorrectAnswer
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group row">
+                                            <label class="col-md-3 label-control">نمره:</label>
+                                            <div class="col-md-9">
+                                                @Model.Exercise.Barom
+                                                <span asp-validation-for="FileID"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            <input type="hidden" asp-for="ID" />
+                            <div class="form-group row">
+                                <div class="col-12">
+                                    @if (Model.Exercise.EndDate >= DateTime.Now)
+                                    {
+                                        <button type="submit" class="btn btn-primary" id="submit">ثبت</button>
+                                    }
+                                    <a class="btn btn-cancel-title-editing" href="/Edu">انصراف</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section Scripts{
+    <script src="/app-assets/vendors/js/forms/icheck/icheck.min.js" type="text/javascript"></script>
+    <script src="/app-assets/js/scripts/forms/checkbox-radio.min.js" type="text/javascript"></script>
+}

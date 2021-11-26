@@ -1,0 +1,188 @@
+﻿@model Seventy.ViewModel.EDU.CourseCategoryEditModel
+@{
+    ViewBag.Title = "دسته بندی ها";
+    Layout = "~/Areas/Edu/Shared/_Layout.cshtml";
+}
+@section Styles{
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/forms/selects/select2.min.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/tables/datatable/datatables.min.css">
+}
+
+<section>
+    @if (TempData.ContainsKey("success"))
+    {
+        <div class="haftad-alert" type="success" title="@TempData["success"]"></div>
+    }
+    @if (TempData.ContainsKey("err"))
+    {
+        <div class="haftad-alert" type="danger" title="@TempData["err"]"></div>
+    }
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">@ViewBag.Title</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                            <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card-content collapse show">
+                    <div class="card-body card-dashboard">
+                        <form asp-area="Edu" asp-controller="CourseCategories" asp-action="Index" method="post">
+                            <div class="form-group">
+                                <div asp-validation-summary="All" class="text-danger"></div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-control" asp-for="PrimaryCat"></label>
+
+                                        <div class="col-md-9">
+                                            <select asp-for="PrimaryCat" class="form-control select2" required>
+                                                <option disabled selected>نام دسته اصلی</option>
+                                                <option value="هفتاد زندگی">هفتاد زندگی</option>
+                                                <option value="هفتاد کسب و کار">هفتاد کسب و کار</option>
+                                            </select>
+                                            <span asp-validation-for="PrimaryCat"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-control" asp-for="SecondaryCat"></label>
+
+                                        <div class="col-md-9">
+                                            <input asp-for="SecondaryCat" class="form-control" placeholder="@Html.DisplayNameFor(q => q.SecondaryCat)" autocomplete="off" required />
+                                            <span asp-validation-for="SecondaryCat"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-control" asp-for="Description"></label>
+
+                                        <div class="col-md-9">
+                                            <textarea asp-for="Description" class="form-control" placeholder="@Html.DisplayNameFor(q => q.Description)" autocomplete="off"></textarea>
+                                            <span asp-validation-for="Description"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <input type="hidden" asp-for="ID" />
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <div class="col-sm-10 offset-3">
+                                            <button type="submit" class="btn btn-primary">ثبت</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@{
+    await Html.RenderPartialAsync("~/Areas/Edu/Shared/PartialLoading.cshtml");
+}
+
+<section id="List"></section>
+
+
+@section Scripts{
+    <script src="/app-assets/vendors/js/tables/datatable/datatables.min.js" type="text/javascript"></script>
+    <script src="/app-assets/vendors/js/forms/select/select2.full.min.js" type="text/javascript"></script>
+    <script src="/app-assets/js/scripts/forms/select/form-select2.min.js" type="text/javascript"></script>
+    <script src="/app-assets/vendors/js/pagination/jquery.twbsPagination.min.js" type="text/javascript"></script>
+    <script src="/app-assets/js/scripts/pagination/pagination.js" type="text/javascript"></script>
+
+    <script>
+        var currentPage = 1;
+        var totalPage = 0;
+        $(document).ready(function () {
+            LoadPage(currentPage);
+        });
+
+        function LoadPage(id) {
+            var p = $("#PageBtn_" + id);
+            p.removeClass("hidden");
+
+            $('#List').load("/Edu/CourseCategories/List", { page: id },
+                function (responseTxt, statusTxt, xhr) {
+                    $(".waiting").hide();
+                    if (statusTxt === "success") {
+                        totalPage = parseInt($("#TotalPage").val());
+                        p.addClass("hidden");
+                    }
+                });
+        }
+
+        function NextPage() {
+            if (currentPage < totalPage) {
+                currentPage += 1;
+                LoadPage(currentPage);
+            }
+        }
+
+        function PrevPage() {
+            if (currentPage > 1) {
+                currentPage -= 1;
+                LoadPage(currentPage);
+            }
+        }
+
+        function Delete(id) {
+            swal({
+                title: 'جهت حذف این اطلاعات مطمئن هستید؟',
+                text: 'شما نمی توانید این را برگردانید!',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'بله ، آن را حذف میکنم!',
+                cancelButtonText: 'منصرف شدم'
+            }).then((result) => {
+                if (result.value) {
+                    doDelete(id);
+                }
+            });
+        }
+
+        function doDelete(id) {
+            $.ajax({
+                type: "POST",
+                url: "/Edu/CourseCategories/Remove",
+                data: {
+                    ID: id
+                },
+                success: function (data) {
+                    if (data === "done") {
+                        $("#Row_" + id).remove();
+                        swal("انجام شد", data.statusText, "success");
+                    }
+                    else {
+                        swal("خطا", data.statusText, "error");
+                    }
+                }, error: function (data) {
+                    swal("خطا", data.statusText, "error");
+                }
+            });
+        }
+    </script>
+}

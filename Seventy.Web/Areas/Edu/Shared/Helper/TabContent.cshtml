@@ -1,0 +1,6 @@
+﻿@if (ViewData.Eval("Content") != null)
+{
+    <div role="tabpanel" class="tab-pane @ViewData.Eval("isActive").ToString()" id="@ViewData.Eval("Area").ToString()" aria-labelledby="@ViewData.Eval("ID").ToString()" aria-expanded="true">
+        <p>@Html.Raw(ViewData.Eval("Content").ToString())</p>
+    </div>
+}

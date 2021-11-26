@@ -1,0 +1,105 @@
+﻿@model Seventy.ViewModel.Core.FilesViewModel
+@{
+    Layout = "FileLayout.cshtml";
+}
+
+<section>
+    @if (TempData.ContainsKey("success"))
+    {
+        <div class="haftad-alert" type="success" title="@TempData["success"]"></div>
+    }
+    @if (TempData.ContainsKey("err"))
+    {
+        <div class="haftad-alert" type="danger" title="@TempData["err"]"></div>
+    }
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">@ViewBag.Title</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                            <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card-content collapse show">
+                    <div class="card-body card-dashboard">
+                        <form asp-area="Edu" asp-controller="File" asp-action="Index" method="post" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <div asp-validation-summary="All" class="text-danger"></div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-control" asp-for="Type"></label>
+                                        <div class="col-md-9">
+                                            <select asp-for="Type" class="form-control select2" placeholder="@Html.DisplayNameFor(q=>q.Type)">
+                                                <option value="0">سایر</option>
+                                                <option value="1">ویدئو</option>
+                                                <option value="2">Html</option>
+                                            </select>
+                                            <span asp-validation-for="Type"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-control" asp-for="Title"></label>
+
+                                        <div class="col-md-9">
+                                            <input class="form-control" asp-for="Title" placeholder="@Html.DisplayNameFor(q=>q.Title)" autocomplete="off" required>
+                                            <span asp-validation-for="Title"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-control" asp-for="Description"></label>
+
+                                        <div class="col-md-9">
+                                            <textarea asp-for="Description" class="form-control" placeholder="@Html.DisplayNameFor(q => q.Description)" autocomplete="off"></textarea>
+                                            <span asp-validation-for="Description"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-control" asp-for="UploadFile"></label>
+
+                                        <div class="col-md-9">
+                                            <input class="form-control" asp-for="UploadFile" />
+                                            <span asp-validation-for="UploadFile"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="hidden" asp-for="ID" />
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <div class="col-sm-10 offset-3">
+                                            <button type="submit" class="btn btn-primary">ثبت</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section >
+    <partial name="_List" />
+</section>
+
+

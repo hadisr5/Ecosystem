@@ -1,0 +1,63 @@
+﻿
+@model Seventy.ViewModel.Core.Users.ActivationViewModel
+@{
+    Layout = "_LoginLayout";
+}
+
+<div class="app-content content">
+    <div class="content-wrapper">
+        <div class="content-wrapper-before"></div>
+        <div class="content-header row">
+        </div>
+        <div class="content-body">
+            <section class="flexbox-container">
+                <div class="col-12 d-flex align-items-center justify-content-center">
+                    <div class="col-lg-4 col-md-6 col-10 box-shadow-2 p-0">
+                        <div class="card border-grey border-lighten-3 px-1 py-1 m-0">
+                            <div class="card-header border-0">
+                                <div class="text-center mb-1">
+                                    <img src="/assets/main/img/logo/logo1.jpg" alt="branding logo" width="200">
+                                </div>
+                                <div class="font-large-1  text-center">
+                                    ثبت نام
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <div class="font-small-3 text-center">
+                                        @if (ViewData.ContainsKey("err"))
+                                        {
+                                            <p class="alert-danger p-1">@ViewData["err"]</p>
+                                        }
+                                        @if (Context.Request.Query.ContainsKey("success"))
+                                        {
+                                            <p class="alert-success p-1">@Context.Request.Query["success"]</p>
+                                        }
+                                    </div>
+                                    <div id="register">
+                                        <form class="form-horizontal" asp-controller="Account" asp-action="SendRegisterationCode" method="post">
+                                            <fieldset class="form-group position-relative has-icon-left">
+                                                <input type="text" class="form-control " asp-for="Mobile" placeholder="@Html.DisplayNameFor(q=>q.Mobile)" required>
+                                                <input type="hidden" class="form-control " asp-for="ReturnUrl">
+                                                <div class="form-control-position">
+                                                    <i class="ft-user"></i>
+                                                </div>
+                                                <span asp-validation-for="Mobile" class="danger"></span>
+                                            </fieldset>
+                                            <fieldset class="form-group position-relative has-icon-left" id="UserActivationCode-field">
+                                                <button type="submit" class="btn round btn-block btn-glow btn-bg-gradient-x-purple-blue col-12 mr-1 mb-1 mt-1">ارسال کد فعال سازی</button>
+                                            </fieldset>
+                                        </form>
+                                    </div>
+                                </div>
+                                <p class="card-subtitle text-muted text-right font-small-3 mx-2">
+                                    <span>انتقال به صفحه <a asp-controller="Account" asp-action="Login" class="card-link">ورود</a></span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,12 @@
+﻿@model List<Seventy.DomainClass.Core.UserGroups>
+<label class="col-md-3 label-control">
+    گروه
+</label>
+<div class="col-md-9">
+    <select class="form-control select2" placeholder="گروه" id="TargetID" name="TargetID">
+        @foreach (Seventy.DomainClass.Core.UserGroups item in Model)
+        {
+            <option value="@item.ID">@item.Title</option>
+        }
+    </select>
+</div>

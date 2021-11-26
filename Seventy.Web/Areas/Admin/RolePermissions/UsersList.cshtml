@@ -1,0 +1,29 @@
+
+@model dynamic
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+@using Seventy.Service.Users
+@inject IUserManager _userManager
+@* 
+@{
+int  _pageNumber =0;
+
+int.TryParse(HttpContextAccessor.HttpContext.Request.Query["usersPageNumber"],out _pageNumber);
+
+var users= await _userManager.GetAllPaginatedAsync(new Seventy.Data.GenericPagingParameters{
+    PageNumber=_pageNumber,
+});
+} *@
+
+
+@* لیست کاربران لود می شود *@
+@* 
+<ul>
+@foreach (var item in users)
+{
+    <li><a class="user">@item.Name</a></li>
+}
+</ul> *@
+
+<div id="users"></div>
+

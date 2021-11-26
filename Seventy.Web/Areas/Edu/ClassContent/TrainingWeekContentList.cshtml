@@ -1,0 +1,47 @@
+﻿@using System.Threading
+@model List<Seventy.ViewModel.Core.FilesSecondViewModel>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">لیست آموزش محتوای هفتگی</h4>
+                <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+            </div>
+            <div class="card-content collapse show">
+                <div class="card-body card-dashboard">
+                    <div class="table-responsive">
+
+                        @foreach (var item in Model)
+                        {
+                            var file = await Seventy.Web.Areas.Edu.ClassContent.ClassContentController.CheckFile(new CancellationToken(), item.FileId);
+                            //var file = "/UploadFiles/24.html";
+
+                            @if (file != null)
+                            {
+                            <div id="Content_@item.ID">
+                                @Html.Raw(System.Net.WebUtility.HtmlDecode(await Seventy.Web.Areas.Edu.ClassContent.ClassContentController.GetFileContent(new CancellationToken(), file)))
+                            </div>
+                            <a id="ContentStudied_@item.ID" data-contentid="@item.ID" class="btn btn-primary ContentStudied" href="#">مطالعه کردم</a>
+                            <hr />
+                            <br /><br />
+
+                                @*<div class="card" style="width: 18rem;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">@item.Title</h5>
+                                        <p class="card-text">@Html.Raw(System.Net.WebUtility.HtmlDecode(await Seventy.Web.Areas.Edu.ClassContent.ClassContentController.GetFileContent(new CancellationToken(), file)))</p>
+                                        <a href="#" class="btn btn-primary">مطالعه کردم</a>
+                                    </div>
+                                </div>*@
+                            }
+                            else
+                            {
+                                <p>دسترسی به این فایل ممکن نیست</p>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

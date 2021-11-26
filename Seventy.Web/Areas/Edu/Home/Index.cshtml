@@ -1,0 +1,267 @@
+﻿@model Seventy.ViewModel.EDU.Main.MainStudentViewModel
+@using controller = Seventy.Web.Areas.Edu.Home.HomeController
+@using System.Threading
+@{
+    Layout = "_layout";
+}
+
+<h1>Edu Area</h1>
+@if (ViewBag.success != null)
+{
+    <div class="haftad-alert" type="success" title="@ViewBag.success"></div>
+}
+@if (TempData.ContainsKey("success"))
+{
+    <div class="haftad-alert" type="success" title="@TempData["success"]"></div>
+}
+
+@if (ViewBag.UserRoleTitle == "Student")
+{
+    <div class="content-wrapper-before"></div>
+    <div class="content-header row">
+    </div>
+    <div class="content-body">
+
+        <div class="row">
+            <div class="col-md-12 col-lg-12">
+                <div class="card">
+                    <div class="card-header p-1">
+                        <h4 class="card-title float-left">اطلاعات</h4>
+                    </div>
+                    <div class="card-content collapse show">
+                        <div class="card-footer text-center p-1">
+                            <div class="row">
+                                <div class="col-md-3 col-12 border-right-blue-grey border-right-lighten-5 text-center">
+                                    <p class="blue-grey lighten-2 mb-0">دوره های ثبت نام کرده</p>
+                                    <p class="font-medium-5 text-bold-400">@*@Model.UserCourses.Count*@</p>
+                                </div>
+                                <div class="col-md-3 col-12 border-right-blue-grey border-right-lighten-5 text-center">
+                                    <p class="blue-grey lighten-2 mb-0">دوره های در جریان</p>
+                                    <p class="font-medium-5 text-bold-400">@*@Model.UserCourses.Where(w => w.State == Seventy.ViewModel.EDU.Main.CourseState.InProgress).Count()*@</p>
+                                </div>
+                                <div class="col-md-3 col-12 border-right-blue-grey border-right-lighten-5 text-center">
+                                    <p class="blue-grey lighten-2 mb-0">دوره های پایان یافته</p>
+                                    <p class="font-medium-5 text-bold-400">@*@Model.UserCourses.Where(w => w.State == Seventy.ViewModel.EDU.Main.CourseState.Done).Count()*@</p>
+                                </div>
+                                <div class="col-md-3 col-12 text-center">
+                                    <p class="blue-grey lighten-2 mb-0">محتوای مطالعه شده</p>
+                                    <p class="font-medium-5 text-bold-400">0</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 col-lg-12">
+                <div class="card">
+                    <div class="card-header p-1">
+                        <h4 class="card-title float-left">وضعیت</h4>
+                    </div>
+                    <div class="card-content collapse show">
+                        <div class="card-footer text-center p-1">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card pull-up">
+                                        <div class="card-content collapse show">
+                                            <div class="card-body pt-0 pb-1">
+                                                <h6 class="text-muted font-small-3">وضعیت : 4/10</h6>
+                                                <div class="progress progress-sm mt-1 mb-0 box-shadow-2">
+                                                    <div class="progress-bar bg-gradient-x-info" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">دوره های ثبت نام کرده</h4>
+                        <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    </div>
+                    <div class="card-content collapse show">
+                        <div class="card-body p-0 pb-0">
+                            <div class="row">
+                                @*@foreach (var item in Model.UserCourses)
+                                    {
+                                        var file = await controller.CheckFile(new CancellationToken(), item.PhotoFileID);
+
+                                        <div class="col-4">
+                                            <div class="card pull-up">
+                                                <div class="card-header">
+                                                    <h4 class="card-title float-left">@item.Title</h4><a class="heading-elements-toggle" dideo-checked="true"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                                                    <span class="badge badge-pill badge-info float-right m-0">مدت : @item.Duration</span>
+                                                </div>
+                                                <div class="card-content collapse show">
+                                                    <div class="card-body pt-0 pb-1">
+                                                        <div class="media d-flex">
+                                                            <div class="align-self-center">
+                                                                <h6 class="text-bold-600 mt-2"> مدرس: <span class="info">@item.CourseTeacher</span></h6>
+                                                            </div>
+                                                            <div class="media-body text-right mt-2">
+                                                                <ul class="list-unstyled users-list">
+                                                                    <li data-toggle="tooltip" data-popup="tooltip-custom" data-original-title="عکس دوره" class="avatar avatar-sm pull-up" style="width: 50px">
+                                                                        <img class="media-object rounded-circle" src="@file" alt="Avatar">
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    }*@
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">دوره های به اتمام رسیده</h4>
+                        <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    </div>
+                    <div class="card-content collapse show">
+                        <div class="card-body p-0 pb-0">
+                            <div class="row">
+                                @*@foreach (var item in Model.UserCourses.Where(w => w.State == Seventy.ViewModel.EDU.Main.CourseState.Done))
+                                                                {
+                                                                    var file = await controller.CheckFile(new CancellationToken(), item.PhotoFileID);
+
+                                                                    <div class="col-4">
+                                                                        <div class="card pull-up">
+                                                                            <div class="card-header">
+                                                                                <h4 class="card-title float-left">@item.Title</h4><a class="heading-elements-toggle" dideo-checked="true"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                                                                                <span class="badge badge-pill badge-info float-right m-0">مدت : @item.Duration</span>
+                                                                            </div>
+                                                                            <div class="card-content collapse show">
+                                                                                <div class="card-body pt-0 pb-1">
+                                                                                    <div class="media d-flex">
+                                                                                        <div class="align-self-center">
+                                                                                            <h6 class="text-bold-600 mt-2"> مدرس: <span class="info">@item.CourseTeacher</span></h6>
+                                                                                        </div>
+                                                                                        <div class="media-body text-right mt-2">
+                                                                                            <ul class="list-unstyled users-list">
+                                                                                                <li data-toggle="tooltip" data-popup="tooltip-custom" data-original-title="عکس دوره" class="avatar avatar-sm pull-up" style="width: 50px">
+                                                                                                    <img class="media-object rounded-circle" src="@file" alt="Avatar">
+                                                                                                </li>
+                                                                                            </ul>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                }
+                                    }*@
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">دوره های پیشروع</h4>
+                        <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    </div>
+                    <div class="card-content collapse show">
+                        <div class="card-body p-0 pb-0">
+                            <div class="row">
+                                @if (Model != null && Model.Courses != null && Model.Courses?.Count > 0)
+                                {
+                                    foreach (var item in Model.Courses)
+                                    {
+                                        <div class="col-4">
+                                            <div class="card pull-up">
+                                                <div class="card-header">
+                                                    <h4 class="card-title float-left">@item.Title</h4><a class="heading-elements-toggle" dideo-checked="true"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                                                    <span class="badge badge-pill badge-info float-right m-0">مدت : @item.Duration</span>
+                                                </div>
+                                                <div class="card-content collapse show">
+                                                    <div class="card-body pt-0 pb-1">
+                                                        <div class="media d-flex">
+                                                            <div class="align-self-center">
+                                                                <h6 class="text-bold-600 mt-2"> دوره: <span class="info">@item.CourseTitle</span></h6>
+                                                                <h6 class="text-bold-600 mt-1"> تاریخ شروع: <span class="blue-grey">@item.StartDate</span></h6>
+                                                                <h6 class="text-bold-600 mt-1"> تاریخ اتمام: <span class="blue-grey">@item.EndDate</span></h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">SummaryViewModel</h4>
+                        <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    </div>
+                    <div class="card-content collapse show">
+                        <div class="card-body p-0 pb-0">
+                            <div class="row">
+                                @if (Model != null && Model.Courses != null && Model.Courses?.Count > 0)
+                                {
+                                    foreach (var item in Model.SummaryViewModel)
+                                    {
+                                        <div class="col-4">
+                                            <div class="card pull-up">
+                                                <div class="card-header">
+                                                    <h4 class="card-title float-left">@item.CourseTitle</h4><a class="heading-elements-toggle" dideo-checked="true"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                                                    <span class="badge badge-pill badge-info float-right m-0">گروه : @item.GroupTitle</span>
+                                                </div>
+                                                <div class="card-content collapse show">
+                                                    <div class="card-body pt-0 pb-1">
+                                                        <div class="media d-flex">
+                                                            <div class="align-self-center">
+                                                                <h6 class="text-bold-600 mt-2"> دوره: <span class="info">@item.CourseTitle</span></h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

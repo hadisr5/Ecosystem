@@ -1,0 +1,19 @@
+﻿@model Seventy.ViewModel.Core.FilesViewModel
+
+@{
+    ViewBag.Title = "لیست دوره های آموزش تک مهارتی";
+    Layout = "~/Areas/Edu/Shared/_Layout.cshtml";
+}
+
+@section Styles{
+
+}
+
+@RenderBody()
+
+@section Scripts{
+    <script src="~/Scripts/Views/SingleSkill.js"></script>
+    <script>
+        reloadSingleSkillList();
+    </script>
+}

@@ -1,0 +1,118 @@
+﻿@using Microsoft.AspNetCore.Http
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@inject Seventy.Service.Core.MenuAccess.IMenuAccessService MenuService
+
+
+<div class="main-menu menu-fixed menu-light menu-accordion    menu-shadow " data-scroll-to-active="true" data-img="/app-assets/images/backgrounds/02.jpg">
+    <div class="navbar-header">
+        <ul class="nav navbar-nav flex-row">
+            <li class="nav-item mr-auto">
+                <a class="navbar-brand" asp-area="Edu" asp-controller="Home" asp-action="Index">
+                    <img alt="logo" src="/assets/main/img/logo/logo1.jpg" width="100" />
+                    <h3 class="brand-text">هفتاد</h3>
+                </a>
+            </li>
+            <li class="nav-item d-md-none"><a class="nav-link close-navbar"><i class="ft-x"></i></a></li>
+        </ul>
+    </div>
+    <div class="navigation-background"></div>
+    <div class="main-menu-content">
+        @{
+            var controllername = ViewContext.RouteData.Values["Controller"].ToString();
+            var actionname = ViewContext.RouteData.Values["Action"].ToString();
+        }
+        <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
+
+            <li class=" nav-item">
+                <a href="#">
+                    <i class="ft-home featherIcon-32"></i><span class="menu-title" data-i18n="">داشبورد</span>
+                </a>
+                <ul class="menu-content">
+                    <li class="@(controllername == "Home" && actionname == "Index" ? "active" : "")">
+                        <a class="menu-item" asp-controller="Home" asp-action="Index">صفحه اصلی</a>
+                    </li>
+                    <li class="@(controllername == "User" && actionname == "MessageList" ? "active" : "")">
+                        <a class="menu-item" asp-area="Edu" asp-controller="User" asp-action="MessageList">لیست پیام ها</a>
+                    </li>
+                    <li class="@(controllername == "Messages" && actionname == "Messages" ? "active" : "")">
+                        <a class="menu-item" asp-area="Edu" asp-controller="Messages" asp-action="Messages">ارسال پیام</a>
+                    </li>
+                    <li class="@(controllername == "User" && actionname == "ChangePassword" ? "active" : "")">
+                        <a class="menu-item" asp-area="Edu" asp-controller="User" asp-action="ChangePassword">تغییر رمز</a>
+                    </li>
+
+                </ul>
+            </li>
+
+            @if (ViewBag.UserRoleTitle == "مدیر ارشد")
+            {
+                <li class=" nav-item">
+                    <a href="#">
+                        <i class="ft-globe featherIcon-32"></i><span class="menu-title" data-i18n="">مدیریت سایت</span>
+                    </a>
+                    <ul class="menu-content">
+                        <li class="@(controllername == "Logs" && actionname == "AddLogs" ? "active" : "")">
+                            <a class="menu-item" asp-area="Edu" asp-controller="Logs" asp-action="AddLogs">مدیریت خطاها</a>
+                        </li>
+
+                        <li class="@(controllername == "UserGroups" && actionname == "Index" ? "active" : "")">
+                            <a class="menu-item" href="/Edu/UserGroups/Index?id=0">گروه های کاربری</a>
+                        </li>
+
+
+                        <li class=" nav-item">
+                            <a href="#"><i class="ft-slack"></i><span class="menu-title" data-i18n="">کنترل دسترسی</span></a>
+                            <ul class="menu-content">
+                                <li class="@(ViewContext.RouteData.Values["Controller"].ToString().ToLower() == "users" ? "active" : "")">
+                                    <a class="menu-item" href="/Admin/Users/List">لیست کاربران</a>
+                                </li>
+                                <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "RoleManagement" ? "active" : "")">
+                                    <a class="menu-item" asp-area="Admin" asp-controller="Role" asp-action="RoleManagement">لیست نقش ها</a>
+                                </li>
+                                <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "RolePermissionsManagement" ? "active" : "")">
+                                    <a class="menu-item" asp-area="Admin" asp-controller="Permission" asp-action="UserAccessAndRole">مدیریت دسترسی و نقش کاربران</a>
+                                </li>
+                                <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "RoleDefaultAccesses" ? "active" : "")">
+                                    <a class="menu-item" asp-area="Admin" asp-controller="Permission" asp-action="DefaultRoleAccess">دسترسی های پیشفرض نقش ها</a>
+                                </li>
+                                <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "AccessPermissionGroup" ? "active" : "")">
+                                    <a class="menu-item" asp-area="Admin" asp-controller="Permission" asp-action="AccessPermissionGroup">دسترسی گروه ها</a>
+                                </li>
+                            </ul>
+                        </li>
+
+
+
+                    </ul>
+                </li>
+            }
+
+            <li class=" nav-item">
+                <a href="#">
+                    <i class="ft-book featherIcon-32"></i><span class="menu-title" data-i18n="">آموزش آنلاین</span>
+                </a>
+                <ul class="menu-content">
+
+                    @{
+                        var menues = await MenuService.GetMenues();
+                        foreach (var group in menues)
+                        {
+                            <li class=" nav-item">
+                                <a href="#">
+                                    <i class="ft-edit pr-1"></i><span class="menu-title" data-i18n="">@group.Key</span>
+                                </a>
+                                <ul class="menu-content">
+                                    @foreach (var groupDetail in group)
+                                    {
+                                        <li class="is-shown">
+                                            <a class="menu-item" href="@groupDetail.Route">@groupDetail.Name</a>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+                        }
+                    }
+
+    </div>
+</div>

@@ -1,0 +1,40 @@
+﻿@using Seventy.Service.Core.Files
+@inject IFilesService _filesService;
+@{
+    string profileImageUrl = "/app-assets/images/portrait/small/avatar-s-19.png";
+    if (User.Identity.IsAuthenticated)
+    {
+        var Imgclaim = User.Claims.FirstOrDefault(q => q.Type == "ImgUrl")?.Value;
+        if ( !string.IsNullOrWhiteSpace(Imgclaim))
+        {
+            profileImageUrl = await _filesService.GetFileUrlById(int.Parse(Imgclaim), new System.Threading.CancellationToken());
+        }
+    }
+}
+<li class="dropdown dropdown-user nav-item">
+    <a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">
+        <span class="avatar avatar-online">
+            <img src="@profileImageUrl" alt="avatar">
+        </span>
+    </a>
+    <div class="dropdown-menu dropdown-menu-right">
+        <div class="arrow_box_right">
+            <a class="dropdown-item" href="#">
+                <span class="avatar avatar-online">
+                    <img src="@profileImageUrl" alt="avatar">
+                    <span class="user-name text-bold-700 ml-1">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            @User.Claims.FirstOrDefault(q => q.Type == "DisplayName").Value
+                        }
+                    </span>
+                </span>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/Edu/UserProfileIndex"><i class="ft-user"></i> پروفایل</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" asp-area="Edu" asp-controller="User" asp-action="ChangePassword"><i class="ft-lock"></i> تغییر رمز عبور</a>
+            <a class="dropdown-item" asp-controller="Account" asp-action="LogOut"><i class="ft-power"></i> خروج</a>
+        </div>
+    </div>
+</li>

@@ -1,0 +1,51 @@
+﻿@using System.Threading
+@model List<Seventy.DomainClass.Core.Messages>
+@{
+	Layout = "_layout";
+}
+@if (Context.Request.Query.ContainsKey("success"))
+{
+	<div class="haftad-alert" type="success" title="@Context.Request.Query["success"]"></div>
+}
+<div id="tableCaption" class="col-lg-12 col-12 layout-spacing">
+	<div class="statbox widget box box-shadow">
+		<div class="widget-header">
+			<div class="row">
+				<div class="col-xl-12 col-md-12 col-sm-12 col-12">
+					<h4>لیست تمامی پیام ها</h4>
+				</div>
+			</div>
+		</div>
+		<div class="widget-content widget-content-area">
+			<div class="table-responsive">
+				<table class="table mb-4">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>موضوع</th>
+							<th>ارسال کننده</th>
+							@*<th>دریافت کننده</th>*@
+							<th>توضیحات</th>
+							<th>تاریخ ارسال</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (Seventy.DomainClass.Core.Messages item in Model)
+						{
+							var sender = await Seventy.Web.Areas.Admin.Users.UsersController.GetEmailbyId(item.SenderUserID, new CancellationToken());
+							//var reciver = await Seventy.Web.Areas.Admin.Users.UsersController.GetEmailbyId(item.ReciverUserID);
+							<tr>
+								<td>@item.ID</td>
+								<td>@item.MsgTitle</td>
+								<td>@(sender)</td>
+								@*<td>@(reciver)</td>*@
+								<td>@item.Description</td>
+								<td class="ltr">@Seventy.Service.Core.Users.Helper.GetPersianDate(item.RegDate)</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

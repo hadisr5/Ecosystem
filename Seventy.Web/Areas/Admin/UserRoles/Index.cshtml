@@ -1,0 +1,115 @@
+﻿@model Seventy.DomainClass.Core.RolePermissions
+@{
+    Layout = "~/Areas/Admin/Shared/_Layout.cshtml";
+    ViewBag.Title = "مدریت دسترسی کاربران";
+}
+@section Styles{
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/tables/datatable/datatables.min.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/forms/selects/select2.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/jquery-checktree.css">
+    <!-- BEGIN: Vendor CSS-->
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/plugins/forms/switch.min.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/forms/icheck/icheck.css">
+    <!-- END: Vendor CSS-->
+}
+
+<section>
+    @if (TempData.ContainsKey("success"))
+    {
+        <div class="haftad-alert" type="success" title="@TempData["success"]"></div>
+    }
+    @if (TempData.ContainsKey("err"))
+    {
+        <div class="haftad-alert" type="danger" title="@TempData["err"]"></div>
+    }
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">@ViewBag.Title</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                            <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card-content collapse show">
+                    <div class="card-body card-dashboard">
+                        <p class="card-text">برای ساخت یا ویرایش گزینه های پایین را پر نمایید</p>
+                        <form asp-area="Admin" asp-controller="RolePermissions" asp-action="RolePermissionsManagement" method="post">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-control" for="userinput1">انتخاب نقش</label>
+                                        <span asp-validation-for="RoleID" class="danger"></span>
+                                        <div class="col-md-9">
+                                            <select asp-for="RoleID" class="form-control  basic round select2" placeholder="@Html.DisplayNameFor(q=>q.RoleID)">
+                                                @foreach (Seventy.DomainClass.Core.Roles item in ViewBag.AllRole)
+                                                {
+                                                    <option value="@item.ID">@item.Title</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6" id="List">
+
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <div class="col-sm-10 offset-3">
+                                            <button type="submit" class="btn btn-primary" id="submit">ثبت</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <input type="hidden" asp-for="ID" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@section Scripts{
+    @*DataTbl*@
+    <script src="/app-assets/vendors/js/tables/datatable/datatables.min.js" type="text/javascript"></script>
+    <script src="/app-assets/vendors/js/forms/select/select2.full.min.js" type="text/javascript"></script>
+    <script src="/app-assets/js/scripts/forms/select/form-select2.min.js" type="text/javascript"></script>
+    <script src="/assets/js/jquery-checktree.js"></script>
+
+    <script src="/app-assets/vendors/js/forms/icheck/icheck.min.js" type="text/javascript"></script>
+    <script src="/app-assets/js/scripts/forms/checkbox-radio.min.js" type="text/javascript"></script>
+
+    <script>
+        
+        $(document).ready(function () {
+            LoadPerms($("#RoleID").val());
+        });
+        $("#RoleID").on("change", function () {
+            LoadPerms($("#RoleID").val());
+        });
+        function LoadPerms(UID) {
+            $('#List').fadeOut(500);
+            $('#List').load("/Admin/RolePermissions/RolePermissionsManagementList", { RoleId: UID },
+                function (responseTxt, statusTxt, xhr) {
+                    if (statusTxt == "success") {
+                        $('#tree').checktree();
+                        $('#List').fadeIn(500);
+                    }
+                });
+        }
+    </script>
+}
